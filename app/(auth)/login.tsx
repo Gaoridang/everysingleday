@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, Button, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { supabase } from "../utils/supabase";
 
@@ -9,9 +19,6 @@ export default function Login() {
   const router = useRouter();
 
   const handleLogin = async () => {
-    // 여기에 실제 로그인 로직을 구현합니다.
-    // 예를 들어, Supabase를 사용한 로그인 등
-    console.log("로그인 로직 실행");
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -39,22 +46,46 @@ export default function Login() {
   };
 
   return (
-    <View className="flex-1 justify-center items-center">
-      <Text className="font-bold text-2xl">Every Single Day</Text>
-      <TextInput
-        onChangeText={setEmail}
-        value={email}
-        keyboardType="email-address"
-        placeholder="이메일"
-        autoCapitalize="none"
-      />
-      <TextInput
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry
-        placeholder="Password"
-      />
-      <Button title="Login" onPress={handleLogin} />
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      className="flex-1"
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View className="flex-1 justify-center items-center px-6 pt-20">
+            <Text className="font-bold text-3xl mb-12">Every Single Day</Text>
+            <TextInput
+              className="w-full text-base border-b border-gray-300 p-2 mb-4"
+              onChangeText={setEmail}
+              value={email}
+              keyboardType="email-address"
+              placeholder="이메일"
+              autoCapitalize="none"
+            />
+            <TextInput
+              className="w-full text-base border-b border-gray-300 p-2 mb-6"
+              onChangeText={setPassword}
+              value={password}
+              secureTextEntry
+              placeholder="Password"
+            />
+            <TouchableOpacity
+              className="w-full bg-blue-500 rounded-md py-3 mb-4"
+              onPress={handleLogin}
+            >
+              <Text className="text-center text-white text-base font-semibold">
+                로그인
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push("/(auth)/register")}>
+              <Text className="text-blue-500">회원가입</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableWithoutFeedback>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

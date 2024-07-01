@@ -30,7 +30,9 @@
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.10",
     "typescript": "~5.3.3",
-    "watchman": "^1.0.0"
+    "watchman": "^1.0.0",
+    "expo-auth-session": "~5.5.2",
+    "expo-crypto": "~13.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

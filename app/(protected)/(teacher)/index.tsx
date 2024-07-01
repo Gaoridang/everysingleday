@@ -10,5 +10,3 @@ const TeacherHome = () => {
 };
 
 export default TeacherHome;
-
-const styles = StyleSheet.create({});
