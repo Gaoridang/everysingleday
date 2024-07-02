@@ -9,6 +9,7 @@ import { Platform } from "react-native";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { AuthProvider } from "./context/AuthProvider";
+import { PortalHost } from "@rn-primitives/portal";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -66,6 +67,7 @@ export default function RootLayout() {
         <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
         <Slot />
       </ThemeProvider>
+      <PortalHost />
     </AuthProvider>
   );
 }

@@ -19,7 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		13B07F961A680F5B00A75B9A /* schoolmanagementfix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = schoolmanagementfix.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* EverySingleDay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EverySingleDay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = schoolmanagementfix/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = schoolmanagementfix/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = schoolmanagementfix/Images.xcassets; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* schoolmanagementfix.app */,
+				13B07F961A680F5B00A75B9A /* EverySingleDay.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -161,7 +161,7 @@
 			);
 			name = schoolmanagementfix;
 			productName = schoolmanagementfix;
-			productReference = 13B07F961A680F5B00A75B9A /* schoolmanagementfix.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* EverySingleDay.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -261,6 +261,7 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoSystemUI/ExpoSystemUI_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage/RNCAsyncStorage_resources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/RCTI18nStrings.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/expo-dev-launcher/EXDevLauncher.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/expo-dev-menu/EXDevMenu.bundle",
 			);
@@ -273,6 +274,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoSystemUI_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNCAsyncStorage_resources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCTI18nStrings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SDWebImage.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXDevLauncher.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXDevMenu.bundle",
 			);
@@ -362,7 +364,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.everysingleday.ios;
-				PRODUCT_NAME = schoolmanagementfix;
+				PRODUCT_NAME = EverySingleDay;
 				SWIFT_OBJC_BRIDGING_HEADER = "schoolmanagementfix/schoolmanagementfix-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -393,7 +395,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.everysingleday.ios;
-				PRODUCT_NAME = schoolmanagementfix;
+				PRODUCT_NAME = EverySingleDay;
 				SWIFT_OBJC_BRIDGING_HEADER = "schoolmanagementfix/schoolmanagementfix-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

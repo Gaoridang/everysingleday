@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { supabase } from "../utils/supabase";
@@ -9,6 +9,8 @@ const AvatarUpload = () => {
   const [avatar, setAvatar] = useState("");
   const [uploading, setUploading] = useState(false);
   const { user } = useAuth();
+
+  useEffect(() => {}, []);
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -67,7 +69,7 @@ const AvatarUpload = () => {
   };
 
   return (
-    <View className="flex-1 items-center justify-center">
+    <View className="items-center justify-center">
       <TouchableOpacity onPress={pickImage} disabled={uploading}>
         {avatar ? (
           <Image source={{ uri: avatar }} className="w-32 h-32 rounded-full" />
