@@ -1,8 +1,9 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, KeyboardAvoidingView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import AvatarUpload from "~/app/onboarding/avatar";
+import { useAuth } from "~/app/context/AuthProvider";
+import AvatarUpload from "../../onboarding/avatar";
+import { supabase } from "~/app/utils/supabase";
 import { Button } from "~/components/ui/button";
 
 interface Profile {
@@ -13,6 +14,7 @@ interface Profile {
 
 const EditProfile = () => {
   const router = useRouter();
+  const { user } = useAuth();
   const { profile: profileParam } = useLocalSearchParams<{ profile: string }>();
   const [profile, setProfile] = useState<Profile | null>(null);
 
@@ -22,10 +24,29 @@ const EditProfile = () => {
     }
   }, [profileParam]);
 
-  const handleSave = () => {
-    // 여기에 프로필 저장 로직 구현
-    console.log("Saving profile:", profile);
-    router.back();
+  const handleAvatarChange = (newAvatarPath: string) => {
+    if (profile) {
+      setProfile({ ...profile, avatar_url: newAvatarPath });
+    }
+  };
+
+  const handleSave = async () => {
+    if (!profile || !user) return;
+
+    try {
+      const { error } = await supabase.from("profiles").upsert({
+        id: user.id,
+        name: profile.name,
+        email: profile.email,
+      });
+
+      if (error) throw error;
+
+      console.log("Profile saved successfully");
+      router.back();
+    } catch (error) {
+      console.error("Error saving profile:", error);
+    }
   };
 
   if (!profile) {
@@ -33,32 +54,32 @@ const EditProfile = () => {
   }
 
   return (
-    <View className="flex-1 px-6 gap-6">
-      <KeyboardAvoidingView>
-        <Text>Edit Profile</Text>
-        <AvatarUpload />
-        <TextInput
-          className="py-3 border-b border-b-slate-300"
-          value={profile.name}
-          onChangeText={(text) => setProfile({ ...profile, name: text })}
-          placeholder="Name"
-        />
-        <TextInput
-          className="py-2 border-b border-b-slate-300"
-          value={profile.email}
-          onChangeText={(text) => setProfile({ ...profile, email: text })}
-          placeholder="Email"
-        />
-        <View className="gap-2">
-          <Button variant="default" onPress={handleSave}>
-            <Text className="text-white font-bold">저장</Text>
-          </Button>
-          <Button variant="outline" onPress={() => router.back()}>
-            <Text className="font-semibold">취소</Text>
-          </Button>
-        </View>
-      </KeyboardAvoidingView>
-    </View>
+    <KeyboardAvoidingView className="flex-1 p-6 gap-6">
+      <AvatarUpload
+        currentAvatarUrl={profile.avatar_url}
+        onAvatarChange={handleAvatarChange}
+      />
+      <TextInput
+        className="py-3 border-b border-b-slate-300"
+        value={profile.name}
+        onChangeText={(text) => setProfile({ ...profile, name: text })}
+        placeholder="Name"
+      />
+      <TextInput
+        className="py-2 border-b border-b-slate-300"
+        value={profile.email}
+        onChangeText={(text) => setProfile({ ...profile, email: text })}
+        placeholder="Email"
+      />
+      <View className="gap-2">
+        <Button variant="default" onPress={handleSave}>
+          <Text className="text-white font-bold">저장</Text>
+        </Button>
+        <Button variant="outline" onPress={() => router.back()}>
+          <Text className="font-semibold">취소</Text>
+        </Button>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
