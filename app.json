@@ -1,49 +1,35 @@
 {
   "expo": {
-    "name": "school-management-fix",
-    "slug": "school-management-fix",
+    "name": "Starter Base",
+    "slug": "starter-base",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.everysingleday.ios"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
     },
     "plugins": ["expo-router"],
-    "scheme": "myapp",
-    "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "ff8a3bdf-6ad7-4046-abb9-1fd7574cd51d"
-      }
-    },
-    "expo": {
-      "plugins": [
-        [
-          "@react-native-google-signin/google-signin",
-          {
-            "iosUrlScheme": "com.googleusercontent.apps.com.googleusercontent.apps.325778344635-se2ads78ag1qpebrb80r9ps5f3iqfl8i"
-          }
-        ]
-      ]
+    "experiments": {
+      "typedRoutes": true
     }
   }
 }

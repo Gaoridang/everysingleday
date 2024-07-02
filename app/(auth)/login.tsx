@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { supabase } from "../utils/supabase";
+import GoogleSignInButton from "./GoogleSignInButton";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -36,11 +37,7 @@ export default function Login() {
       if (profileError) {
         throw profileError;
       } else {
-        const role = profileData.role;
-        const rootRoute = "/(protected)";
-        const route = `${rootRoute}/(${role})`;
-
-        router.replace(route);
+        router.replace("/");
       }
     }
   };
@@ -57,6 +54,7 @@ export default function Login() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View className="flex-1 justify-center items-center px-6 pt-20">
             <Text className="font-bold text-3xl mb-12">Every Single Day</Text>
+            <GoogleSignInButton />
             <TextInput
               className="w-full text-base border-b border-gray-300 p-2 mb-4"
               onChangeText={setEmail}
