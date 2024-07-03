@@ -1,8 +1,9 @@
-import { Link, useFocusEffect, useRouter } from "expo-router";
+import { useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { Image, Text, View, TouchableOpacity } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
 import { supabase } from "~/app/utils/supabase";
+import LinkButton from "../../components/ActionButton";
 import ClassInfo from "./ClassInfo";
 
 interface Profile {
@@ -14,7 +15,6 @@ interface Profile {
 const StudentAccount = () => {
   const { user, signOut } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
-  const router = useRouter();
 
   const fetchProfile = useCallback(async () => {
     if (!user) return;
@@ -40,22 +40,8 @@ const StudentAccount = () => {
     }, [fetchProfile])
   );
 
-  const handleEditProfile = () => {
-    if (profile) {
-      router.push({
-        pathname: "/profile/EditProfile",
-        params: {
-          profile: JSON.stringify({
-            ...profile,
-            avatar_url: profile.avatar_url,
-          }),
-        },
-      });
-    }
-  };
-
   return (
-    <View className="p-6 gap-6">
+    <View className="gap-6">
       <View className="relative gap-4 justify-center items-center">
         <View>
           {profile?.avatar_url ? (
@@ -74,7 +60,7 @@ const StudentAccount = () => {
             {profile?.name}
           </Text>
           <Text className="text-center text-base">{profile?.email}</Text>
-          <Link href="/profile/editModal">프로필 수정</Link>
+          <LinkButton href="/profile/editModal" text="프로필 수정" />
         </View>
       </View>
       <ClassInfo />
