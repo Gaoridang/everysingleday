@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 import { supabase } from "../utils/supabase";
+import { router } from "expo-router";
 
 interface AuthProps {
   isAuthenticated: boolean | null;
@@ -99,6 +100,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       user: null,
       userRole: null,
     });
+    router.replace("/(auth)");
   }
 
   const signOut = async () => {
