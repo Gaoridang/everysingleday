@@ -1,45 +1,43 @@
-// app/index.tsx
-import { useRouter } from "expo-router";
-import React, { useEffect, useRef } from "react";
-import { View, Text } from "react-native";
+import React, { useEffect } from "react";
+import { View, ActivityIndicator } from "react-native";
+import { useRouter, Redirect } from "expo-router";
 import { useAuth } from "./context/AuthProvider";
+import { useTheme } from "./context/ThemeProvider";
 
 export default function Index() {
-  const { isAuthenticated, isLoading, userRole } = useAuth();
+  const { isAuthenticated, userRole, isLoading } = useAuth();
+  const { isDarkColorScheme } = useTheme();
   const router = useRouter();
-  const hasNavigated = useRef(false);
 
   useEffect(() => {
-    console.log("Auth state in Index:", {
-      isAuthenticated,
-      isLoading,
-      userRole,
-    });
-
-    if (!isLoading && !hasNavigated.current) {
-      if (isAuthenticated === false) {
-        console.log("Routing to login");
+    if (!isLoading) {
+      if (!isAuthenticated) {
         router.replace("/(auth)/login");
-      } else if (isAuthenticated && userRole === null) {
-        console.log("Routing to onboarding");
+      } else if (!userRole) {
         router.replace("/onboarding/role");
-      } else if (isAuthenticated && userRole) {
-        console.log("Routing to home");
-        router.replace(`/(${userRole})/home`);
+      } else {
+        router.replace(`/(app)/(${userRole})`);
       }
-      hasNavigated.current = true;
     }
   }, [isLoading, isAuthenticated, userRole, router]);
 
-  // 로딩 중일 때만 로딩 화면을 표시
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Loading...</Text>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: isDarkColorScheme ? "#000" : "#fff",
+        }}
+      >
+        <ActivityIndicator
+          size="large"
+          color={isDarkColorScheme ? "#fff" : "#000"}
+        />
       </View>
     );
   }
 
-  // 로딩이 끝났지만 아직 라우팅되지 않았을 때 빈 화면 표시
   return null;
 }

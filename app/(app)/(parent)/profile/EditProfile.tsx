@@ -1,10 +1,15 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, KeyboardAvoidingView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
-import AvatarUpload from "../../onboarding/avatar";
+import AvatarUpload from "../../../onboarding/avatar";
 import { supabase } from "~/app/utils/supabase";
-import { Button } from "~/components/ui/button";
 
 interface Profile {
   name: string;
@@ -72,12 +77,12 @@ const EditProfile = () => {
         placeholder="Email"
       />
       <View className="gap-2">
-        <Button variant="default" onPress={handleSave}>
+        <TouchableOpacity onPress={handleSave}>
           <Text className="text-white font-bold">저장</Text>
-        </Button>
-        <Button variant="outline" onPress={() => router.back()}>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.back()}>
           <Text className="font-semibold">취소</Text>
-        </Button>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );

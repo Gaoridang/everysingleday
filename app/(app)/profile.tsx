@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const account = () => {
+const profile = () => {
   return (
     <View>
-      <Text>account</Text>
+      <Text>profile</Text>
     </View>
   );
 };
 
-export default account;
+export default profile;

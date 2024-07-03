@@ -1,10 +1,9 @@
-import { useRouter, useFocusEffect } from "expo-router";
+import { Link, useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Image, Text, View, TouchableOpacity } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
 import { supabase } from "~/app/utils/supabase";
-import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import ClassInfo from "./ClassInfo";
 
 interface Profile {
   name: string;
@@ -12,8 +11,8 @@ interface Profile {
   avatar_url: string;
 }
 
-const TeacherAccount = () => {
-  const { user } = useAuth();
+const StudentAccount = () => {
+  const { user, signOut } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
   const router = useRouter();
 
@@ -44,7 +43,7 @@ const TeacherAccount = () => {
   const handleEditProfile = () => {
     if (profile) {
       router.push({
-        pathname: "/account/EditProfile",
+        pathname: "/profile/EditProfile",
         params: {
           profile: JSON.stringify({
             ...profile,
@@ -56,38 +55,35 @@ const TeacherAccount = () => {
   };
 
   return (
-    <View className="p-6">
-      <Card className="relative justify-center items-center">
-        <CardHeader>
-          <CardTitle>
-            {profile?.avatar_url ? (
-              <Image
-                className="w-24 h-24 rounded-full"
-                source={{ uri: profile.avatar_url }}
-              />
-            ) : (
-              <View className="w-24 h-24 bg-slate-400 rounded-full items-center justify-center">
-                <Text className="text-gray-500">Select Avatar</Text>
-              </View>
-            )}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+    <View className="p-6 gap-6">
+      <View className="relative gap-4 justify-center items-center">
+        <View>
+          {profile?.avatar_url ? (
+            <Image
+              className="w-24 h-24 rounded-full"
+              source={{ uri: profile.avatar_url }}
+            />
+          ) : (
+            <View className="w-24 h-24 bg-slate-400 rounded-full items-center justify-center">
+              <Text className="text-gray-500">사진 선택</Text>
+            </View>
+          )}
+        </View>
+        <View>
           <Text className="text-center text-2xl font-semibold">
             {profile?.name}
           </Text>
           <Text className="text-center text-base">{profile?.email}</Text>
-          <Button
-            className="mt-4"
-            variant="secondary"
-            onPress={handleEditProfile}
-          >
-            <Text>프로필 수정</Text>
-          </Button>
-        </CardContent>
-      </Card>
+          <Link href="/profile/editModal">프로필 수정</Link>
+        </View>
+      </View>
+      <ClassInfo />
+      {/* 로그아웃 */}
+      <TouchableOpacity onPress={signOut}>
+        <Text>로그아웃</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
-export default TeacherAccount;
+export default StudentAccount;
