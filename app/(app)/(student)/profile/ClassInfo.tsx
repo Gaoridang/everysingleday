@@ -53,8 +53,8 @@ const ClassInfo = () => {
         {classInfo ? (
           <Feather name="chevron-right" size={24} color="#4B5563" />
         ) : (
-          <TouchableOpacity onPress={() => router.push("/account/CreateClass")}>
-            <Text className="text-white font-semibold">학급 만들기</Text>
+          <TouchableOpacity onPress={() => router.push("/profile/joinClass")}>
+            <Text className="text-white font-semibold">학급 가입하기</Text>
           </TouchableOpacity>
         )}
       </TouchableOpacity>

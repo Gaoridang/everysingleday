@@ -1,15 +1,11 @@
-import { View, Text, Button, TextInput } from "react-native";
 import React, { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "~/app/context/AuthProvider";
-import { supabase } from "~/app/utils/supabase";
+import { Button, Text, TextInput, View } from "react-native";
 import { useJoinClass } from "../../hooks/useJoinClass";
 
 const joinClass = () => {
   const [inviteCode, setInviteCode] = useState("");
   const [studentNumber, setStudentNumber] = useState("");
-  const { user } = useAuth();
-  const joinClassMutation = useJoinClass(user?.id, inviteCode, studentNumber);
+  const joinClassMutation = useJoinClass(inviteCode, studentNumber);
 
   const handleJoinClass = () => {
     if (!inviteCode || !studentNumber) {

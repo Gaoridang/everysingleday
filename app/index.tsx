@@ -12,7 +12,7 @@ export default function Index() {
   useEffect(() => {
     if (!isLoading) {
       if (!isAuthenticated) {
-        router.replace("/(auth)/login");
+        router.replace("/(auth)");
       } else if (!userRole) {
         router.replace("/onboarding/role");
       } else {
