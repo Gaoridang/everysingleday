@@ -60,7 +60,7 @@ const StudentAccount = () => {
             {profile?.name}
           </Text>
           <Text className="text-center text-base">{profile?.email}</Text>
-          <LinkButton href="/profile/editModal" text="프로필 수정" />
+          <LinkButton href="/(student)/profile/editModal" text="프로필 수정" />
         </View>
       </View>
       <ClassInfo />

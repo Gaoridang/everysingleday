@@ -4,6 +4,7 @@ import { Image, Text, View, TouchableOpacity } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
 import { supabase } from "~/app/utils/supabase";
 import ClassInfo from "./ClassInfo";
+import LinkButton from "../../components/ActionButton";
 
 interface Profile {
   name: string;
@@ -14,7 +15,6 @@ interface Profile {
 const TeacherAccount = () => {
   const { user, signOut } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
-  const router = useRouter();
 
   const fetchProfile = useCallback(async () => {
     if (!user) return;
@@ -40,22 +40,8 @@ const TeacherAccount = () => {
     }, [fetchProfile])
   );
 
-  const handleEditProfile = () => {
-    if (profile) {
-      router.push({
-        pathname: "/account/EditProfile",
-        params: {
-          profile: JSON.stringify({
-            ...profile,
-            avatar_url: profile.avatar_url,
-          }),
-        },
-      });
-    }
-  };
-
   return (
-    <View className="p-6 gap-6">
+    <View className="gap-6">
       <View className="relative gap-4 justify-center items-center">
         <View>
           {profile?.avatar_url ? (
@@ -74,9 +60,7 @@ const TeacherAccount = () => {
             {profile?.name}
           </Text>
           <Text className="text-center text-base">{profile?.email}</Text>
-          <TouchableOpacity className="mt-4" onPress={handleEditProfile}>
-            <Text>프로필 수정</Text>
-          </TouchableOpacity>
+          <LinkButton href="/(teacher)/profile/editModal" text="프로필 수정" />
         </View>
       </View>
       <ClassInfo />

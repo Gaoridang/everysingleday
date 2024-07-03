@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "~/app/context/ThemeProvider";
 
 export default function TeacherLayout() {
-  const { isDarkColorScheme } = useTheme();
+  const { isDarkColorScheme, toggleTheme } = useTheme();
 
   return (
     <Tabs
@@ -14,6 +14,22 @@ export default function TeacherLayout() {
         tabBarStyle: {
           backgroundColor: isDarkColorScheme ? "#000000" : "#ffffff",
         },
+        tabBarShowLabel: false,
+        headerRight: () => {
+          return (
+            <Ionicons
+              className="mr-4"
+              name={isDarkColorScheme ? "sunny" : "moon"}
+              size={24}
+              color={isDarkColorScheme ? "#ffffff" : "#000000"}
+              onPress={toggleTheme}
+            />
+          );
+        },
+        headerStyle: {
+          backgroundColor: isDarkColorScheme ? "#000000" : "#ffffff",
+        },
+        headerTintColor: isDarkColorScheme ? "#ffffff" : "#000000",
       }}
     >
       <Tabs.Screen
