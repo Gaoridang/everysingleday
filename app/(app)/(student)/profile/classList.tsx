@@ -1,7 +1,9 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "~/app/context/AuthProvider";
 import { supabase } from "~/app/utils/supabase";
+import { Link } from "expo-router";
+import LinkButton from "../../components/ActionButton";
 
 interface ClassProps {
   school: string;
@@ -10,7 +12,7 @@ interface ClassProps {
   class_id: string;
 }
 
-const classListModal = () => {
+const classList = () => {
   const { user } = useAuth();
   const [classList, setClassList] = useState<ClassProps[]>([]);
 
@@ -48,8 +50,9 @@ const classListModal = () => {
           );
         }}
       />
+      <LinkButton href="/profile/joinClass" text="학급 가입하기" />
     </View>
   );
 };
 
-export default classListModal;
+export default classList;

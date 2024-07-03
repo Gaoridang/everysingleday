@@ -37,7 +37,7 @@ const ClassInfo = () => {
   }, []);
 
   return (
-    <Link href="/profile/classListModal" asChild>
+    <Link href="/profile/classList" asChild>
       <TouchableOpacity className="flex-row justify-between items-center p-4 bg-slate-100 rounded-lg">
         <View>
           <Text className="text-lg font-semibold mb-2">학급 정보</Text>

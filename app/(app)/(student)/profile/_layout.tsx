@@ -32,9 +32,16 @@ export default function AccountLayout() {
         }}
       />
       <Stack.Screen
-        name="classListModal"
+        name="classList"
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="joinClass"
+        options={{
+          headerShown: false,
+          presentation: "modal",
         }}
       />
     </Stack>
