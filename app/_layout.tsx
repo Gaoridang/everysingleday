@@ -5,27 +5,28 @@ import { Slot } from "expo-router";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AuthProvider } from "./context/AuthProvider";
-import { ThemeProvider, useTheme } from "./context/ThemeProvider";
+import { ThemeProvider } from "./context/ThemeProvider";
+import { ClassProvider } from "./context/ClassProvider";
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <ThemeProvider>
-        <QueryClientProvider client={queryClient}>
-          <SafeAreaProvider>
-            <RootLayoutNav />
-          </SafeAreaProvider>
-        </QueryClientProvider>
-      </ThemeProvider>
+      <ClassProvider>
+        <ThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            <SafeAreaProvider>
+              <RootLayoutNav />
+            </SafeAreaProvider>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </ClassProvider>
     </AuthProvider>
   );
 }
 
 function RootLayoutNav() {
-  const { isDarkColorScheme } = useTheme();
-
   return (
     <>
       <Slot />

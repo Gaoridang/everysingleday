@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
-import AvatarUpload from "../../../onboarding/avatar";
+import AvatarUpload from "../../../onboarding/SelectAvatarScreen";
 import { supabase } from "~/app/utils/supabase";
 
 interface Profile {

@@ -1,6 +1,7 @@
-import React from "react";
-import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
+import React from "react";
+import { useAuth } from "~/app/context/AuthProvider";
 import { useTheme } from "~/app/context/ThemeProvider";
 
 export default function TeacherLayout() {
@@ -33,11 +34,20 @@ export default function TeacherLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="dashboard"
         options={{
-          title: "Home",
+          title: "Dashboard",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="checklists"
+        options={{
+          title: "Checklists",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="clipboard-outline" size={size} color={color} />
           ),
         }}
       />
@@ -50,6 +60,7 @@ export default function TeacherLayout() {
           ),
         }}
       />
+      <Tabs.Screen name="index" options={{ href: null }} />
     </Tabs>
   );
 }

@@ -3,8 +3,8 @@ import React, { useCallback, useState } from "react";
 import { Image, Text, View, TouchableOpacity } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
 import { supabase } from "~/app/utils/supabase";
-import ClassInfo from "./ClassInfo";
 import LinkButton from "../../components/ActionButton";
+import ClassInfo from "../../components/ClassInfo";
 
 interface Profile {
   name: string;
@@ -63,7 +63,20 @@ const TeacherAccount = () => {
           <LinkButton href="/(teacher)/profile/editModal" text="프로필 수정" />
         </View>
       </View>
-      <ClassInfo />
+      <ClassInfo role="teacher" />
+      <View className="grid grid-cols-2">
+        <LinkButton
+          variant="secondary"
+          className="col-span-1"
+          href="/(teacher)/profile/ClassListScreen"
+          text="학급 목록"
+        />
+        <LinkButton
+          className="col-span-1"
+          href="/(teacher)/profile/CreateClassScreen"
+          text="학급 만들기"
+        />
+      </View>
       {/* 로그아웃 */}
       <TouchableOpacity onPress={signOut}>
         <Text>로그아웃</Text>

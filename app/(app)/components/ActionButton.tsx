@@ -6,10 +6,11 @@ import { cn } from "~/lib/utils";
 interface Props {
   href: string;
   text: string;
+  className?: string;
   variant?: "primary" | "secondary";
 }
 
-const LinkButton = ({ href, text, variant = "primary" }: Props) => {
+const LinkButton = ({ href, text, className, variant = "primary" }: Props) => {
   const color = variant === "primary" ? "bg-gray-700" : "bg-white";
   const border = variant === "primary" ? "" : "border border-gray-700";
   const textColor = variant === "primary" ? "text-white" : "text-black";
@@ -18,9 +19,10 @@ const LinkButton = ({ href, text, variant = "primary" }: Props) => {
     <Link href={href} asChild>
       <TouchableOpacity
         className={cn(
+          className,
           color,
           border,
-          "py-3 px-4 justify-center items-center my-3 rounded-md"
+          "py-3 px-4 justify-center items-center my-3 rounded-md active:scale-95"
         )}
       >
         <Text className={cn(textColor, "font-bold")}>{text}</Text>

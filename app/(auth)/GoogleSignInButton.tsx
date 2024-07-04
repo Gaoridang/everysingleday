@@ -31,7 +31,6 @@ export default function GoogleSignInButton() {
         token: idToken,
       });
       if (error) throw error;
-      console.log("Signed in:", data);
       // 여기에 로그인 성공 후 처리 로직을 추가하세요 (예: 홈 화면으로 이동)
       router.replace("/");
     } catch (error) {

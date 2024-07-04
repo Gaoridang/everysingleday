@@ -1,25 +1,11 @@
-// app/(teacher)/account/_layout.tsx
 import { Stack } from "expo-router";
-import { useTheme } from "~/app/context/ThemeProvider";
+import CustomStack from "../../components/CustomStack";
 
 export default function AccountLayout() {
-  const { isDarkColorScheme } = useTheme();
-
   return (
-    <Stack
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: isDarkColorScheme ? "#000000" : "#ffffff",
-        },
-        headerTintColor: isDarkColorScheme ? "#ffffff" : "#000000",
-        contentStyle: {
-          padding: 16,
-          backgroundColor: isDarkColorScheme ? "#000000" : "#ffffff",
-        },
-      }}
-    >
+    <CustomStack>
       <Stack.Screen
-        name="home"
+        name="index"
         options={{
           headerShown: false,
         }}
@@ -32,11 +18,23 @@ export default function AccountLayout() {
         }}
       />
       <Stack.Screen
-        name="ClassList"
+        name="ClassListScreen"
         options={{
           headerShown: false,
         }}
       />
-    </Stack>
+      <Stack.Screen
+        name="CreateClassScreen"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ClassInfoScreen"
+        options={{
+          headerShown: false,
+        }}
+      />
+    </CustomStack>
   );
 }

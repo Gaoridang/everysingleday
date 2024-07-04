@@ -1,12 +1,12 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-const ClassList = () => {
+const InputNameScreen = () => {
   return (
     <View>
-      <Text>ClassList</Text>
+      <Text>InputNameScreen</Text>
     </View>
   );
 };
 
-export default ClassList;
+export default InputNameScreen;

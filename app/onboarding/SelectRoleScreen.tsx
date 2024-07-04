@@ -8,14 +8,16 @@ const roles = [
   { id: "teacher", label: "선생님" },
   { id: "student", label: "학생" },
   { id: "parent", label: "학부모" },
-];
+] as const;
 
-const Onboarding = () => {
-  const [selectedRole, setSelectedRole] = useState(null);
+type Role = "teacher" | "student" | "parent";
+
+const SelectRoleScreen = () => {
+  const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const { user } = useAuth();
   const router = useRouter();
 
-  const handleRoleSelection = (role) => {
+  const handleRoleSelection = (role: Role) => {
     setSelectedRole(role);
   };
 
@@ -25,13 +27,13 @@ const Onboarding = () => {
       console.log("Selected role:", selectedRole);
       const { data, error } = await supabase
         .from("profiles")
-        .upsert({ id: user.id, role: selectedRole });
+        .upsert({ id: user?.id, role: selectedRole });
 
       if (error) {
         console.error("error", error);
         return;
       } else {
-        router.replace("/onboarding/avatar");
+        router.replace("/onboarding/SelectAvatarScreen");
       }
     }
   };
@@ -75,4 +77,4 @@ const Onboarding = () => {
   );
 };
 
-export default Onboarding;
+export default SelectRoleScreen;

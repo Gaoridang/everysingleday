@@ -74,32 +74,20 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }
 
   async function handleSignIn(user: User | null, token: string) {
-    console.log("Handling sign in");
     setIsAuthenticated(true);
     setUser(user);
     await AsyncStorage.setItem("userToken", token);
     const role = await checkUserRole(user);
     setUserRole(role);
     setIsLoading(false);
-    console.log("Sign in complete. New state:", {
-      isAuthenticated: true,
-      user,
-      userRole: role,
-    });
   }
 
   async function handleSignOut() {
-    console.log("Handling sign out");
     setIsAuthenticated(false);
     setUser(null);
     setUserRole(null);
     await AsyncStorage.removeItem("userToken");
     setIsLoading(false);
-    console.log("Sign out complete. New state:", {
-      isAuthenticated: false,
-      user: null,
-      userRole: null,
-    });
     router.replace("/(auth)");
   }
 
