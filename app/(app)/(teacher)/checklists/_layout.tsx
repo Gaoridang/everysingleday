@@ -21,6 +21,16 @@ const CheckListLayout = () => {
           presentation: "modal",
         }}
       />
+      <Stack.Screen
+        name="[checklistId]/index"
+        options={{
+          headerTitle: "체크리스트",
+          headerStyle: {
+            backgroundColor: isDarkColorScheme ? "#000" : "#fff",
+          },
+          headerTintColor: isDarkColorScheme ? "#fff" : "#000",
+        }}
+      />
     </CustomStack>
   );
 };

@@ -87,6 +87,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setUser(null);
     setUserRole(null);
     await AsyncStorage.removeItem("userToken");
+    await AsyncStorage.removeItem("lastViewedClassId");
     setIsLoading(false);
     router.replace("/(auth)");
   }

@@ -3,7 +3,7 @@ import React, { createContext, useContext, useReducer, ReactNode } from "react";
 // 체크리스트 아이템 타입 정의
 interface ChecklistItem {
   description: string;
-  order: number;
+  order_num: number;
 }
 
 // 체크리스트 상태 타입 정의
@@ -31,7 +31,7 @@ const initialState: ChecklistState = {
   description: "",
   isPublic: false,
   scheduledAt: new Date(),
-  items: [{ description: "", order: 0 }],
+  items: [{ description: "", order_num: 0 }],
 };
 
 // 리듀서 함수
@@ -51,7 +51,10 @@ const checklistReducer = (
     case "ADD_ITEM":
       return {
         ...state,
-        items: [...state.items, { description: "", order: state.items.length }],
+        items: [
+          ...state.items,
+          { description: "", order_num: state.items.length },
+        ],
       };
     case "REMOVE_ITEM":
       return {

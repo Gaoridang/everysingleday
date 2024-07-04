@@ -1,31 +1,34 @@
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
-  View,
+  ScrollView,
+  Switch,
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  Switch,
+  View,
 } from "react-native";
 import DatePicker from "react-native-date-picker";
-import { Ionicons } from "@expo/vector-icons";
 import {
   ChecklistCreationProvider,
   useChecklistCreation,
 } from "~/app/context/CheckListCreationContext";
-import { useLocalSearchParams } from "expo-router";
+import { useClass } from "~/app/context/ClassProvider";
+import { useCreateCheckList } from "../../hooks/useCheckList";
 
 const ChecklistForm = () => {
-  const { classId } = useLocalSearchParams<{ classId: string }>();
+  const { currentClassId } = useClass();
   const { state, dispatch } = useChecklistCreation();
+  const createChecklist = useCreateCheckList();
   const [openDatePicker, setOpenDatePicker] = React.useState(false);
 
   const handleSubmit = () => {
     // TODO: Implement submission logic
     console.log(state);
+    createChecklist.mutate({ classId: currentClassId!, checklist: state });
   };
 
-  console.log(classId);
+  console.log(currentClassId);
 
   return (
     <ScrollView className="flex-1 p-4 bg-white dark:bg-gray-900">
@@ -83,6 +86,7 @@ const ChecklistForm = () => {
             setOpenDatePicker(false);
           }}
           mode="date"
+          locale="ko"
         />
       </View>
 

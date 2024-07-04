@@ -19,10 +19,10 @@ const LinkButton = ({ href, text, className, variant = "primary" }: Props) => {
     <Link href={href} asChild>
       <TouchableOpacity
         className={cn(
-          className,
+          "py-3 px-4 items-center my-1 rounded-md active:scale-95",
           color,
           border,
-          "py-3 px-4 justify-center items-center my-3 rounded-md active:scale-95"
+          className
         )}
       >
         <Text className={cn(textColor, "font-bold")}>{text}</Text>

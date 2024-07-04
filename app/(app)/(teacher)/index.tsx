@@ -1,29 +1,37 @@
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { Text, View } from "react-native";
-import { useAuth } from "~/app/context/AuthProvider";
-import { useGetMainClass } from "../hooks/useUserClass";
+import { useClass } from "~/app/context/ClassProvider";
 
 const TeacherIndex = () => {
-  const { user } = useAuth();
   const router = useRouter();
-  const { data } = useGetMainClass(user?.id);
+  const { currentClassId, isLoading } = useClass();
 
   useEffect(() => {
-    redirectToMainClass();
-  }, []);
+    if (!isLoading) {
+      redirectToMainClass();
+    }
+  }, [currentClassId, isLoading]);
 
-  const redirectToMainClass = async () => {
-    if (data?.class_id) {
+  const redirectToMainClass = () => {
+    if (currentClassId) {
       router.replace(`/(teacher)/dashboard`);
     } else {
       router.replace("/(teacher)/profile/CreateClassScreen");
     }
   };
 
+  if (isLoading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <View>
-      <Text>Redirecting...</Text>
+      <Text>Redirecting... Current Class ID: {currentClassId || "None"}</Text>
     </View>
   );
 };

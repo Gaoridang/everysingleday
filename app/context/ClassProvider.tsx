@@ -6,6 +6,7 @@ import { useAuth } from "./AuthProvider";
 interface ClassContextType {
   currentClassId: string | null;
   setCurrentClassId: (classId: string) => Promise<void>;
+  isLoading: boolean;
 }
 
 const ClassContext = createContext<ClassContextType | undefined>(undefined);
@@ -22,6 +23,7 @@ export const ClassProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
 }) => {
   const [currentClassId, setCurrentClassId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -29,6 +31,7 @@ export const ClassProvider: React.FC<React.PropsWithChildren<{}>> = ({
   }, [user]);
 
   const loadLastViewedClass = async () => {
+    setIsLoading(true);
     try {
       const lastViewedClassId = await AsyncStorage.getItem("lastViewedClassId");
       if (lastViewedClassId) {
@@ -36,11 +39,13 @@ export const ClassProvider: React.FC<React.PropsWithChildren<{}>> = ({
       } else {
         const mainClass = await fetchMainClass();
         if (mainClass) {
-          setCurrentClassId(mainClass.class_id);
+          setCurrentClassId(mainClass);
         }
       }
     } catch (error) {
       console.error("Error loading last viewed class:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -51,13 +56,14 @@ export const ClassProvider: React.FC<React.PropsWithChildren<{}>> = ({
       .select("class_id")
       .eq("profile_id", user.id)
       .eq("is_primary", true)
-      .single();
+      .maybeSingle();
 
     if (error) {
       console.error("Error fetching main class:", error);
       return null;
+    } else {
+      return data?.class_id || null;
     }
-    return data;
   };
 
   const setCurrentClassIdAndSave = async (classId: string) => {
@@ -70,6 +76,7 @@ export const ClassProvider: React.FC<React.PropsWithChildren<{}>> = ({
       value={{
         currentClassId,
         setCurrentClassId: setCurrentClassIdAndSave,
+        isLoading,
       }}
     >
       {children}
