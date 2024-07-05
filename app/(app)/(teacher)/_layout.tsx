@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import React from "react";
-import { useAuth } from "~/app/context/AuthProvider";
 import { useTheme } from "~/app/context/ThemeProvider";
 
 export default function TeacherLayout() {
@@ -16,21 +15,7 @@ export default function TeacherLayout() {
           backgroundColor: isDarkColorScheme ? "#000000" : "#ffffff",
         },
         tabBarShowLabel: false,
-        headerRight: () => {
-          return (
-            <Ionicons
-              className="mr-4"
-              name={isDarkColorScheme ? "sunny" : "moon"}
-              size={24}
-              color={isDarkColorScheme ? "#ffffff" : "#000000"}
-              onPress={toggleTheme}
-            />
-          );
-        },
-        headerStyle: {
-          backgroundColor: isDarkColorScheme ? "#000000" : "#ffffff",
-        },
-        headerTintColor: isDarkColorScheme ? "#ffffff" : "#000000",
+        headerShown: false,
       }}
     >
       <Tabs.Screen

@@ -8,6 +8,7 @@ export default function AccountLayout() {
         name="index"
         options={{
           headerShown: false,
+          animation: "slide_from_right",
         }}
       />
       <Stack.Screen
@@ -20,21 +21,12 @@ export default function AccountLayout() {
       <Stack.Screen
         name="ClassListScreen"
         options={{
-          headerShown: false,
+          headerTitle: "학급 목록",
+          headerBackTitle: "뒤로",
         }}
       />
-      <Stack.Screen
-        name="CreateClassScreen"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="ClassInfoScreen"
-        options={{
-          headerShown: false,
-        }}
-      />
+      <Stack.Screen name="CreateClassScreen" />
+      <Stack.Screen name="ClassInfoScreen" />
     </CustomStack>
   );
 }

@@ -51,6 +51,25 @@ export const useGetMainClass = (userId?: string) => {
   });
 };
 
+export const useGetClassById = (classId?: string) => {
+  return useQuery({
+    queryKey: ["class", classId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("classes")
+        .select("id,school, grade, class_number")
+        .eq("id", classId)
+        .single();
+
+      if (error) {
+        throw error;
+      } else {
+        return data;
+      }
+    },
+  });
+};
+
 export const useCreateClass = () => {
   const queryClient = useQueryClient();
 

@@ -1,13 +1,15 @@
+import { router } from "expo-router";
 import React from "react";
-import { FlatList, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { useClass } from "~/app/context/ClassProvider";
 import { useGetCheckLists } from "../hooks/useCheckList";
 import RowList from "./RowList";
-import { router } from "expo-router";
 
 const isDatePassed = (dateString: string): boolean => {
-  const today = new Date();
+  const offset = new Date().getTimezoneOffset();
+  const today = new Date(Date.now() - offset * 60 * 1000);
   const formattedToday = today.toISOString().split("T")[0]; // 'YYYY-MM-DD' 형식
+
   return dateString < formattedToday;
 };
 
@@ -29,7 +31,7 @@ const CheckLists = () => {
     );
 
   return (
-    <ScrollView>
+    <ScrollView className="flex-1">
       {data?.map((item) => {
         const isPast = isDatePassed(item.scheduled_at);
         const isToday = isDateToday(item.scheduled_at);

@@ -35,6 +35,32 @@ export const useGetCheckLists = (classId: string) => {
   });
 };
 
+export const useGetTodayCheckLists = (classId: string | null) => {
+  const today = new Date(
+    Date.now() - new Date().getTimezoneOffset() * 60 * 1000
+  );
+  const formattedToday = today.toISOString().split("T")[0];
+
+  return useQuery({
+    queryKey: ["todayChecklists"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("checklists")
+        .select("*")
+        .eq("class_id", classId)
+        .eq("scheduled_at", formattedToday);
+
+      if (error) {
+        console.error("Error fetching today's checklists:", error);
+        throw new Error(error.message);
+      } else {
+        return data;
+      }
+    },
+    enabled: !!classId,
+  });
+};
+
 export const useCreateCheckList = () => {
   const queryClient = useQueryClient();
 

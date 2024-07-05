@@ -1,14 +1,12 @@
-import { View, Text, FlatList } from "react-native";
-import React from "react";
 import { useLocalSearchParams } from "expo-router";
-import { useGetChecklistItems } from "~/app/(app)/hooks/useCheckList";
+import React from "react";
+import { FlatList, View } from "react-native";
 import RowList from "~/app/(app)/components/RowList";
+import { useGetChecklistItems } from "~/app/(app)/hooks/useCheckList";
 
 const index = () => {
   const { checklistId } = useLocalSearchParams();
   const { data } = useGetChecklistItems(checklistId as string);
-
-  console.log(checklistId);
 
   return (
     <View>

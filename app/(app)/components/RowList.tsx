@@ -83,7 +83,7 @@ const RowList = ({
     return (
       <View
         className={cn(
-          "flex-1 flex-row p-4 my-1 justify-between items-center active:scale-95 transition-all",
+          "flex-1 flex-row p-4 justify-between items-center active:scale-95 transition-all",
           className
         )}
       >
@@ -101,7 +101,7 @@ const RowList = ({
     <TouchableOpacity
       onPress={onPress}
       className={cn(
-        "flex-1 flex-row p-4 my-1 justify-between items-center active:scale-95 transition-all",
+        "flex-row p-4 justify-between items-center active:scale-95 transition-all",
         className
       )}
     >

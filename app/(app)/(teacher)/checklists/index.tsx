@@ -1,11 +1,11 @@
-import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import { View } from "react-native";
 import LinkButton from "../../components/ActionButton";
 import CheckLists from "../../components/CheckLists";
 
 const index = () => {
   return (
-    <View>
+    <View className="flex-1">
       <CheckLists />
       <LinkButton
         href="/(teacher)/checklists/CreateCheckListScreen"
