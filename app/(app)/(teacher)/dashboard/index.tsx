@@ -1,24 +1,45 @@
-import React from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { useClass } from "~/app/context/ClassProvider";
-import PageTitle from "../../components/PageTitle";
-import { useGetClassById } from "../../hooks/useUserClass";
-import { useUser } from "../../hooks/useUser";
-import { useAuth } from "~/app/context/AuthProvider";
-import { Link } from "expo-router";
 import { Entypo } from "@expo/vector-icons";
+import { Link } from "expo-router";
+import React, { useEffect } from "react";
+import { Image, Text, View } from "react-native";
+import { useAuth } from "~/app/context/AuthProvider";
+import { useClass } from "~/app/context/ClassProvider";
+import ChecklistItem from "../../components/ChecklistItem";
 import { useGetTodayCheckLists } from "../../hooks/useCheckList";
-import RowList from "../../components/RowList";
+import { useUser } from "../../hooks/useUser";
+import { useGetClassById } from "../../hooks/useUserClass";
+import { supabase } from "~/app/utils/supabase";
 
 const TeacherDashboard = () => {
   const { user } = useAuth();
   const { currentClassId } = useClass();
   const { data: userClass, isLoading } = useGetClassById(currentClassId!);
   const { data: profile } = useUser(user?.id);
-  const { data: checklists, isLoading: checklistsLoading } =
-    useGetTodayCheckLists(currentClassId);
+  const {
+    data: checklists,
+    isLoading: checklistsLoading,
+    refetch,
+  } = useGetTodayCheckLists(currentClassId);
 
-  console.log("checklist", checklists);
+  useEffect(() => {
+    const subscription = supabase
+      .channel("postgres_changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+        },
+        () => {
+          refetch();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [refetch]);
 
   if (!userClass || isLoading) {
     return (
@@ -55,26 +76,9 @@ const TeacherDashboard = () => {
       ) : (
         <View className="bg-slate-200 border border-slate-400 rounded-xl overflow-hidden">
           <Text className="p-4 text-lg font-bold">오늘의 체크리스트</Text>
-          {checklists.map((item) => {
-            return (
-              <RowList
-                className="bg-white"
-                key={item.id}
-                type="link"
-                right={{
-                  type: "button",
-                  content: "알림 보내기",
-                }}
-                content={{
-                  main: item.title,
-                  sub: item.scheduled_at,
-                }}
-                onPress={() => {
-                  console.log("체크리스트 시작", item.title);
-                }}
-              />
-            );
-          })}
+          {checklists.map((item) => (
+            <ChecklistItem key={item.id} item={item} />
+          ))}
         </View>
       )}
     </View>

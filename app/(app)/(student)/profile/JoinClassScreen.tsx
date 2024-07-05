@@ -5,14 +5,14 @@ import { useJoinClass } from "../../hooks/useJoinClass";
 const joinClass = () => {
   const [inviteCode, setInviteCode] = useState("");
   const [studentNumber, setStudentNumber] = useState("");
-  const joinClassMutation = useJoinClass(inviteCode, studentNumber);
+  const joinClassMutation = useJoinClass();
 
   const handleJoinClass = () => {
     if (!inviteCode || !studentNumber) {
       alert("Please enter both invite code and student number");
       return;
     }
-    joinClassMutation.mutate();
+    joinClassMutation.mutate({ inviteCode, studentNumber });
   };
 
   return (

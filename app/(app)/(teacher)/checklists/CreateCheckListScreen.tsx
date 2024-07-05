@@ -28,8 +28,6 @@ const ChecklistForm = () => {
     createChecklist.mutate({ classId: currentClassId!, checklist: state });
   };
 
-  console.log(currentClassId);
-
   return (
     <ScrollView className="flex-1 p-4 bg-white dark:bg-gray-900">
       <Text className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
@@ -80,7 +78,10 @@ const ChecklistForm = () => {
           date={state.scheduledAt}
           onConfirm={(date) => {
             setOpenDatePicker(false);
-            dispatch({ type: "SET_SCHEDULED_AT", payload: date });
+            dispatch({
+              type: "SET_SCHEDULED_AT",
+              payload: date,
+            });
           }}
           onCancel={() => {
             setOpenDatePicker(false);

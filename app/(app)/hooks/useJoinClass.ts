@@ -2,11 +2,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "~/app/utils/supabase";
 import { router } from "expo-router";
 
-export const useJoinClass = (inviteCode: string, studentNumber: string) => {
+export const useJoinClass = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async () => {
+    mutationFn: async ({
+      inviteCode,
+      studentNumber,
+    }: {
+      inviteCode: string;
+      studentNumber: string;
+    }) => {
       const { data, error } = await supabase.rpc("join_class", {
         p_invite_code: inviteCode,
         p_student_number: parseInt(studentNumber),

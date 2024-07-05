@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, ReactNode } from "react";
+import React, { ReactNode, createContext, useContext, useReducer } from "react";
 
 // 체크리스트 아이템 타입 정의
 interface ChecklistItem {
@@ -25,12 +25,13 @@ type ChecklistAction =
   | { type: "REMOVE_ITEM"; payload: number }
   | { type: "UPDATE_ITEM"; payload: { index: number; description: string } };
 
+const offset = new Date().getTimezoneOffset() * 60 * 1000;
 // 초기 상태
 const initialState: ChecklistState = {
   title: "",
   description: "",
   isPublic: false,
-  scheduledAt: new Date(),
+  scheduledAt: new Date(Date.now() - offset),
   items: [{ description: "", order_num: 0 }],
 };
 

@@ -23,7 +23,8 @@ export const useGetCheckLists = (classId: string) => {
         .from("checklists")
         .select("*")
         .eq("class_id", classId)
-        .order("scheduled_at", { ascending: false });
+        .order("scheduled_at", { ascending: false })
+        .order("created_at", { ascending: false });
 
       if (error) {
         console.error("Error fetching checklists:", error);
@@ -46,9 +47,10 @@ export const useGetTodayCheckLists = (classId: string | null) => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("checklists")
-        .select("*")
+        .select("id, title, description, scheduled_at, status")
         .eq("class_id", classId)
-        .eq("scheduled_at", formattedToday);
+        .eq("scheduled_at", formattedToday)
+        .order("scheduled_at", { ascending: false });
 
       if (error) {
         console.error("Error fetching today's checklists:", error);
@@ -58,6 +60,30 @@ export const useGetTodayCheckLists = (classId: string | null) => {
       }
     },
     enabled: !!classId,
+  });
+};
+
+export const useUpdateChecklistStatus = () => {
+  return useMutation({
+    mutationFn: async ({
+      status,
+      checklistId,
+    }: {
+      status: "draft" | "active" | "completed";
+      checklistId: string;
+    }) => {
+      const { data, error } = await supabase
+        .from("checklists")
+        .update({ status })
+        .eq("id", checklistId);
+
+      if (error) {
+        console.error("Error updating checklist status:", error);
+        throw new Error(error.message);
+      } else {
+        return data;
+      }
+    },
   });
 };
 
