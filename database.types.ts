@@ -137,6 +137,7 @@ export type Database = {
       }
       checklists: {
         Row: {
+          checklist_type: string
           class_id: string | null
           created_at: string | null
           created_by: string | null
@@ -149,6 +150,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          checklist_type: string
           class_id?: string | null
           created_at?: string | null
           created_by?: string | null
@@ -161,6 +163,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          checklist_type?: string
           class_id?: string | null
           created_at?: string | null
           created_by?: string | null
@@ -443,40 +446,30 @@ export type Database = {
       }
       student_checklists: {
         Row: {
-          checklist_id: string | null
           class_id: string | null
           created_at: string | null
           id: string
-          status: string | null
+          status: Database["public"]["Enums"]["checklist_status"] | null
           student_id: string | null
           updated_at: string | null
         }
         Insert: {
-          checklist_id?: string | null
           class_id?: string | null
           created_at?: string | null
           id?: string
-          status?: string | null
+          status?: Database["public"]["Enums"]["checklist_status"] | null
           student_id?: string | null
           updated_at?: string | null
         }
         Update: {
-          checklist_id?: string | null
           class_id?: string | null
           created_at?: string | null
           id?: string
-          status?: string | null
+          status?: Database["public"]["Enums"]["checklist_status"] | null
           student_id?: string | null
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "student_checklists_checklist_id_fkey"
-            columns: ["checklist_id"]
-            isOneToOne: false
-            referencedRelation: "checklists"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "student_checklists_class_id_fkey"
             columns: ["class_id"]
@@ -538,6 +531,38 @@ export type Database = {
           },
         ]
       }
+      student_streaks: {
+        Row: {
+          current_streak: number
+          id: string
+          last_completed_date: string | null
+          longest_streak: number
+          profile_id: string | null
+        }
+        Insert: {
+          current_streak?: number
+          id?: string
+          last_completed_date?: string | null
+          longest_streak?: number
+          profile_id?: string | null
+        }
+        Update: {
+          current_streak?: number
+          id?: string
+          last_completed_date?: string | null
+          longest_streak?: number
+          profile_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_streaks_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ui_components: {
         Row: {
           component_data: Json
@@ -590,6 +615,7 @@ export type Database = {
           p_is_public: boolean
           p_scheduled_at: string
           p_items: Json
+          p_checklist_type: string
         }
         Returns: Json
       }
@@ -613,6 +639,12 @@ export type Database = {
           max_count: number
         }[]
       }
+      generate_random_code: {
+        Args: {
+          length: number
+        }
+        Returns: string
+      }
       get_user_classes: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -625,39 +657,18 @@ export type Database = {
       }
       join_class_with_invite_code: {
         Args: {
-          p_code: string
-        }
-        Returns: undefined
-      }
-      use_invite_code: {
-        Args: {
-          p_code: string
-          p_user_id: string
-        }
-        Returns: {
-          success: boolean
-          message: string
-        }[]
-      }
-      use_parent_invite_code: {
-        Args: {
-          p_code: string
-          p_parent_id: string
-        }
-        Returns: {
-          success: boolean
-          message: string
-        }[]
-      }
-      validate_invite_code: {
-        Args: {
           p_invite_code: string
+          p_student_number: number
         }
-        Returns: {
-          is_valid: boolean
-          valid_class_id: string
-          error_message: string
-        }[]
+        Returns: Json
+      }
+      update_student_checklist_response: {
+        Args: {
+          p_checklist_id: string
+          p_evaluated_id: string
+          p_item_responses: Json
+        }
+        Returns: Json
       }
     }
     Enums: {

@@ -2,6 +2,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "~/app/utils/supabase";
 import { router } from "expo-router";
 
+interface JoinClassResult {
+  success: boolean;
+  message: string;
+  class_id: string;
+}
+
 export const useJoinClass = () => {
   const queryClient = useQueryClient();
 
@@ -13,10 +19,13 @@ export const useJoinClass = () => {
       inviteCode: string;
       studentNumber: string;
     }) => {
-      const { data, error } = await supabase.rpc("join_class", {
-        p_invite_code: inviteCode,
-        p_student_number: parseInt(studentNumber),
-      });
+      const { data, error } = await supabase.rpc(
+        "join_class_with_invite_code",
+        {
+          p_invite_code: inviteCode,
+          p_student_number: parseInt(studentNumber),
+        }
+      );
 
       if (error) {
         console.log("Error joining class:", error);
@@ -28,7 +37,7 @@ export const useJoinClass = () => {
       if (data.success) {
         alert(data.message);
         queryClient.invalidateQueries({ queryKey: ["studentClasses"] });
-        router.replace("/profile/classList");
+        router.replace("/profile/index");
       } else {
         alert(data.message);
       }

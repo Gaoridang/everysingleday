@@ -15,9 +15,9 @@ const StudentIndex = () => {
 
   const redirectToMainClass = () => {
     if (currentClassId) {
-      router.replace(`/(student)/dashboard`);
+      router.replace(`/student/dashboard`);
     } else {
-      router.replace("/(student)/profile");
+      router.replace("/student/profile");
     }
   };
 

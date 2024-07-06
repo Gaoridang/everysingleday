@@ -19,9 +19,9 @@ export default function AppLayout() {
           },
         }}
       >
-        <Stack.Screen name="(student)" options={{ headerShown: false }} />
-        <Stack.Screen name="(teacher)" options={{ headerShown: false }} />
-        <Stack.Screen name="(parent)" options={{ headerShown: false }} />
+        <Stack.Screen name="student" options={{ headerShown: false }} />
+        <Stack.Screen name="teacher" options={{ headerShown: false }} />
+        <Stack.Screen name="parent" options={{ headerShown: false }} />
       </Stack>
     </>
   );

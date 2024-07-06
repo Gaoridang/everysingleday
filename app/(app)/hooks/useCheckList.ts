@@ -12,6 +12,7 @@ interface Checklist {
   description: string;
   isPublic: boolean;
   scheduledAt: Date;
+  checklist_type: "teacher" | "student";
   items: ChecklistItem[];
 }
 
@@ -48,7 +49,7 @@ export const useGetTodayCheckLists = (classId: string | null) => {
       const { data, error } = await supabase
         .from("checklists")
         .select("id, title, description, scheduled_at, status")
-        .eq("class_id", classId)
+        .eq("class_id", classId!)
         .eq("scheduled_at", formattedToday)
         .order("scheduled_at", { ascending: false });
 
@@ -60,6 +61,28 @@ export const useGetTodayCheckLists = (classId: string | null) => {
       }
     },
     enabled: !!classId,
+  });
+};
+
+export const useGetMyCheckLists = (classId: string | null, userId?: string) => {
+  return useQuery({
+    queryKey: ["myChecklists"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("checklists")
+        .select("id, title, description, scheduled_at, status")
+        .eq("created_by", userId!)
+        .eq("class_id", classId!)
+        .order("scheduled_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching my checklists:", error);
+        throw new Error(error.message);
+      } else {
+        return data;
+      }
+    },
+    enabled: !!userId,
   });
 };
 
@@ -105,8 +128,9 @@ export const useCreateCheckList = () => {
           p_title: checklist.title,
           p_description: checklist.description,
           p_is_public: checklist.isPublic,
-          p_scheduled_at: checklist.scheduledAt,
-          p_items: checklist.items,
+          p_checklist_type: checklist.checklist_type,
+          p_scheduled_at: checklist.scheduledAt as any,
+          p_items: checklist.items as any,
         }
       );
 
@@ -135,6 +159,36 @@ export const useGetChecklistItems = (checklistId: string) => {
 
       if (error) {
         console.error("Error fetching checklist items:", error);
+        throw new Error(error.message);
+      } else {
+        return data;
+      }
+    },
+  });
+};
+
+export const useUpdateStudentChecklistResponse = () => {
+  return useMutation({
+    mutationFn: async ({
+      checklistId,
+      evaluatedId,
+      itemResponses,
+    }: {
+      checklistId: string;
+      evaluatedId: string;
+      itemResponses: { item_id: string; response: string }[];
+    }) => {
+      const { data, error } = await supabase.rpc(
+        "update_student_checklist_response",
+        {
+          p_checklist_id: checklistId,
+          p_evaluated_id: evaluatedId,
+          p_item_responses: itemResponses,
+        }
+      );
+
+      if (error) {
+        console.error("Error updating checklist item:", error);
         throw new Error(error.message);
       } else {
         return data;

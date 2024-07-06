@@ -1,18 +1,13 @@
-import { useFocusEffect, useRouter } from "expo-router";
+import { useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { Image, Text, View, TouchableOpacity } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
 import { supabase } from "~/app/utils/supabase";
 import LinkButton from "../../components/ActionButton";
 import ClassInfo from "../../components/ClassInfo";
+import { Profile } from "~/app/types";
 
-interface Profile {
-  name: string;
-  email: string;
-  avatar_url: string;
-}
-
-const TeacherAccount = () => {
+const StudentAccount = () => {
   const { user, signOut } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
 
@@ -26,9 +21,11 @@ const TeacherAccount = () => {
         .eq("id", user.id)
         .single();
 
-      if (error) throw error;
-
-      setProfile(data);
+      if (error) {
+        throw error;
+      } else {
+        setProfile(data);
+      }
     } catch (error) {
       console.error("Error fetching profile:", error);
     }
@@ -60,23 +57,10 @@ const TeacherAccount = () => {
             {profile?.name}
           </Text>
           <Text className="text-center text-base">{profile?.email}</Text>
-          <LinkButton href="/(teacher)/profile/editModal" text="프로필 수정" />
+          <LinkButton href="/student/profile/editModal" text="프로필 수정" />
         </View>
       </View>
-      <ClassInfo role="teacher" />
-      <View className="grid grid-cols-2">
-        <LinkButton
-          variant="secondary"
-          className="col-span-1"
-          href="/(teacher)/profile/ClassListScreen"
-          text="학급 목록"
-        />
-        <LinkButton
-          className="col-span-1"
-          href="/(teacher)/profile/CreateClassScreen"
-          text="학급 만들기"
-        />
-      </View>
+      <ClassInfo role="student" />
       {/* 로그아웃 */}
       <TouchableOpacity onPress={signOut}>
         <Text>로그아웃</Text>
@@ -85,4 +69,4 @@ const TeacherAccount = () => {
   );
 };
 
-export default TeacherAccount;
+export default StudentAccount;

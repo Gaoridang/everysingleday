@@ -27,13 +27,16 @@ const ClassInfo = ({ role }: Props) => {
     (item) => item.class_id === mainClassId?.class_id
   );
 
-  const href = `(${role})/profile/ClassInfoScreen`;
+  const classInfoLink = `(${role})/profile/ClassInfoScreen`;
+  const classCreateLink = `(${role})/profile/CreateClassScreen`;
+  const classJoinLink = `(${role})/profile/JoinClassScreen`;
+  const text = role === "teacher" ? "만들기" : "가입하기";
 
   return (
     <TouchableOpacity
       onPress={() =>
         router.push({
-          pathname: href,
+          pathname: classInfoLink,
           params: {
             classId: classInfo?.class_id,
           },
@@ -55,8 +58,12 @@ const ClassInfo = ({ role }: Props) => {
       {classInfo ? (
         <Feather name="chevron-right" size={24} color="#4B5563" />
       ) : (
-        <TouchableOpacity onPress={() => router.push("/profile/CreateClass")}>
-          <Text className="font-semibold">학급 만들기</Text>
+        <TouchableOpacity
+          onPress={() =>
+            router.push(role === "teacher" ? classCreateLink : classJoinLink)
+          }
+        >
+          <Text className="font-semibold">{text}</Text>
         </TouchableOpacity>
       )}
     </TouchableOpacity>

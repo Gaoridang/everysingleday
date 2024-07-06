@@ -1,11 +1,13 @@
 import { router } from "expo-router";
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
-import { useClass } from "~/app/context/ClassProvider";
-import { useGetCheckLists } from "../hooks/useCheckList";
+import { ScrollView } from "react-native";
+import { Tables } from "~/database.types";
 import RowList from "./RowList";
+import { useAuth } from "~/app/context/AuthProvider";
 
 const isDatePassed = (dateString: string): boolean => {
+  if (!dateString) return false;
+
   const offset = new Date().getTimezoneOffset();
   const today = new Date(Date.now() - offset * 60 * 1000);
   const formattedToday = today.toISOString().split("T")[0]; // 'YYYY-MM-DD' 형식
@@ -19,22 +21,18 @@ const isDateToday = (dateString: string): boolean => {
   return dateString === formattedToday;
 };
 
-const CheckLists = () => {
-  const { currentClassId } = useClass();
-  const { data, isLoading } = useGetCheckLists(currentClassId!);
+interface Props {
+  checklists: Partial<Tables<"checklists">>[];
+}
 
-  if (isLoading)
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+const CheckLists = ({ checklists }: Props) => {
+  const { userRole } = useAuth();
 
   return (
     <ScrollView className="flex-1">
-      {data?.map((item) => {
-        const isPast = isDatePassed(item.scheduled_at);
-        const isToday = isDateToday(item.scheduled_at);
+      {checklists?.map((item) => {
+        const isPast = isDatePassed(item.scheduled_at!);
+        const isToday = isDateToday(item.scheduled_at!);
 
         const right = {
           type: "button",
@@ -42,13 +40,13 @@ const CheckLists = () => {
         } as const;
 
         const content = {
-          main: item.title,
-          sub: item.scheduled_at,
+          main: item.title!,
+          sub: item.scheduled_at!,
         };
 
         // TODO: Link to the checklist detail screen
         const onPress = () => {
-          router.push(`/(teacher)/checklists/${item.id}`);
+          router.push(`/${userRole}/checklists/${item.id}`);
         };
 
         return (

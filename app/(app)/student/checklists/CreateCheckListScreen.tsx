@@ -15,8 +15,10 @@ import {
 } from "~/app/context/CheckListCreationContext";
 import { useClass } from "~/app/context/ClassProvider";
 import { useCreateCheckList } from "../../hooks/useCheckList";
+import { useAuth } from "~/app/context/AuthProvider";
 
 const ChecklistForm = () => {
+  const { userRole } = useAuth();
   const { currentClassId } = useClass();
   const { state, dispatch } = useChecklistCreation();
   const createChecklist = useCreateCheckList();
@@ -25,7 +27,13 @@ const ChecklistForm = () => {
   const handleSubmit = () => {
     // TODO: Implement submission logic
     console.log(state);
-    createChecklist.mutate({ classId: currentClassId!, checklist: state });
+    createChecklist.mutate({
+      classId: currentClassId!,
+      checklist: {
+        ...state,
+        checklist_type: userRole as "teacher" | "student",
+      },
+    });
   };
 
   return (
@@ -51,17 +59,19 @@ const ChecklistForm = () => {
         multiline
       />
 
-      <View className="flex-row items-center mb-4">
-        <Text className="mr-2 text-gray-800 dark:text-white">
-          Anonymous Evaluator:
-        </Text>
-        <Switch
-          value={state.isPublic}
-          onValueChange={(value) =>
-            dispatch({ type: "SET_IS_PUBLIC", payload: value })
-          }
-        />
-      </View>
+      {userRole === "teacher" && (
+        <View className="flex-row items-center mb-4">
+          <Text className="mr-2 text-gray-800 dark:text-white">
+            Anonymous Evaluator:
+          </Text>
+          <Switch
+            value={state.isPublic}
+            onValueChange={(value) =>
+              dispatch({ type: "SET_IS_PUBLIC", payload: value })
+            }
+          />
+        </View>
+      )}
 
       <View className="mb-4">
         <Text className="mb-2 text-gray-800 dark:text-white">

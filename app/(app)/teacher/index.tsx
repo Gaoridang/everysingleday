@@ -15,9 +15,9 @@ const TeacherIndex = () => {
 
   const redirectToMainClass = () => {
     if (currentClassId) {
-      router.replace(`/(teacher)/dashboard`);
+      router.replace(`/teacher/dashboard`);
     } else {
-      router.replace("/(teacher)/profile/CreateClassScreen");
+      router.replace("/teacher/profile/CreateClassScreen");
     }
   };
 

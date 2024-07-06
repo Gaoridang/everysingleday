@@ -1,18 +1,13 @@
-import { useFocusEffect } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, View, TouchableOpacity } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
 import { supabase } from "~/app/utils/supabase";
 import LinkButton from "../../components/ActionButton";
-import ClassInfo from "./ClassInfo";
+import ClassInfo from "../../components/ClassInfo";
+import { Profile } from "~/app/types";
 
-interface Profile {
-  name: string;
-  email: string;
-  avatar_url: string;
-}
-
-const StudentAccount = () => {
+const TeacherAccount = () => {
   const { user, signOut } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
 
@@ -60,10 +55,23 @@ const StudentAccount = () => {
             {profile?.name}
           </Text>
           <Text className="text-center text-base">{profile?.email}</Text>
-          <LinkButton href="/(student)/profile/editModal" text="프로필 수정" />
+          <LinkButton href="/(teacher)/profile/editModal" text="프로필 수정" />
         </View>
       </View>
-      <ClassInfo />
+      <ClassInfo role="teacher" />
+      <View className="grid grid-cols-2">
+        <LinkButton
+          variant="secondary"
+          className="col-span-1"
+          href="/(teacher)/profile/ClassListScreen"
+          text="학급 목록"
+        />
+        <LinkButton
+          className="col-span-1"
+          href="/(teacher)/profile/CreateClassScreen"
+          text="학급 만들기"
+        />
+      </View>
       {/* 로그아웃 */}
       <TouchableOpacity onPress={signOut}>
         <Text>로그아웃</Text>
@@ -72,4 +80,4 @@ const StudentAccount = () => {
   );
 };
 
-export default StudentAccount;
+export default TeacherAccount;
