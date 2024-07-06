@@ -19,7 +19,7 @@ export default function AccountLayout() {
       }}
     >
       <Stack.Screen
-        name="home"
+        name="index"
         options={{
           headerShown: false,
         }}

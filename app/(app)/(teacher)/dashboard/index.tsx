@@ -9,6 +9,7 @@ import { useGetTodayCheckLists } from "../../hooks/useCheckList";
 import { useUser } from "../../hooks/useUser";
 import { useGetClassById } from "../../hooks/useUserClass";
 import { supabase } from "~/app/utils/supabase";
+import GenerateClassCode from "../../components/GenerateClassCode";
 
 const TeacherDashboard = () => {
   const { user } = useAuth();
@@ -55,7 +56,7 @@ const TeacherDashboard = () => {
         <Link href={"/(teacher)/profile"} className="active:opacity-50 mb-4">
           <View className="flex-row items-center">
             <Image
-              source={{ uri: profile?.avatar_url }}
+              source={{ uri: profile?.avatar_url || "" }}
               className="w-12 h-12 rounded-full mr-2"
             />
             <Text className="text-lg font-semibold text-slate-500">
@@ -64,11 +65,14 @@ const TeacherDashboard = () => {
             <Entypo name="chevron-right" size={22} className="opacity-50" />
           </View>
         </Link>
-        <View className="p-4 rounded-xl bg-slate-900">
-          <Text className="text-slate-100 text-3xl font-bold">
-            {userClass.school} ✨
-          </Text>
-          <Text className="text-lg font-semibold text-slate-200">{`${userClass.grade}학년 ${userClass.class_number}반`}</Text>
+        <View className="flex-row justify-between items-center p-4 rounded-xl bg-slate-900">
+          <View>
+            <Text className="text-slate-100 text-3xl font-bold">
+              {userClass.school} ✨
+            </Text>
+            <Text className="text-lg font-semibold text-slate-200">{`${userClass.grade}학년 ${userClass.class_number}반`}</Text>
+          </View>
+          <GenerateClassCode />
         </View>
       </View>
       {checklistsLoading || !checklists ? (
