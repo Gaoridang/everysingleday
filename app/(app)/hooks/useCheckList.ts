@@ -66,14 +66,13 @@ export const useGetTodayCheckLists = (classId: string | null) => {
 
 export const useGetMyCheckLists = (classId: string | null, userId?: string) => {
   return useQuery({
-    queryKey: ["myChecklists"],
+    queryKey: ["checklists", classId, userId],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("checklists")
-        .select("id, title, description, scheduled_at, status")
-        .eq("created_by", userId!)
-        .eq("class_id", classId!)
-        .order("scheduled_at", { ascending: false });
+        .from("user_class_checklist_results_view")
+        .select("*")
+        .eq("checklist_creator_id", userId!)
+        .eq("class_id", classId!);
 
       if (error) {
         console.error("Error fetching my checklists:", error);

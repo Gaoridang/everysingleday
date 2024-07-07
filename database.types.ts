@@ -46,6 +46,13 @@ export type Database = {
             referencedRelation: "checklist_responses"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "checklist_item_responses_checklist_response_id_fkey"
+            columns: ["checklist_response_id"]
+            isOneToOne: false
+            referencedRelation: "user_class_checklist_results_view"
+            referencedColumns: ["response_id"]
+          },
         ]
       }
       checklist_items: {
@@ -81,6 +88,13 @@ export type Database = {
             referencedRelation: "checklists"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "checklist_items_checklist_id_fkey"
+            columns: ["checklist_id"]
+            isOneToOne: false
+            referencedRelation: "user_class_checklist_results_view"
+            referencedColumns: ["checklist_id"]
+          },
         ]
       }
       checklist_responses: {
@@ -90,7 +104,7 @@ export type Database = {
           evaluated_id: string | null
           evaluator_id: string | null
           id: string
-          status: Database["public"]["Enums"]["checklist_status"] | null
+          status: string | null
           updated_at: string | null
         }
         Insert: {
@@ -99,7 +113,7 @@ export type Database = {
           evaluated_id?: string | null
           evaluator_id?: string | null
           id?: string
-          status?: Database["public"]["Enums"]["checklist_status"] | null
+          status?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -108,7 +122,7 @@ export type Database = {
           evaluated_id?: string | null
           evaluator_id?: string | null
           id?: string
-          status?: Database["public"]["Enums"]["checklist_status"] | null
+          status?: string | null
           updated_at?: string | null
         }
         Relationships: [
@@ -118,6 +132,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "checklists"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checklist_responses_checklist_id_fkey"
+            columns: ["checklist_id"]
+            isOneToOne: false
+            referencedRelation: "user_class_checklist_results_view"
+            referencedColumns: ["checklist_id"]
           },
           {
             foreignKeyName: "checklist_responses_evaluated_id_fkey"
@@ -595,7 +616,118 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      class_self_checklist_achievement: {
+        Row: {
+          achievement_rate: number | null
+          check_date: string | null
+          class_id: string | null
+          completed_items: number | null
+          student_id: string | null
+          total_items: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checklist_responses_evaluated_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checklists_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_checklist_achievement: {
+        Row: {
+          achievement_rate: number | null
+          completed_checklists: number | null
+          student_id: string | null
+          total_checklists: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checklist_responses_evaluated_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_dashboard: {
+        Row: {
+          achievement_rate: number | null
+          completed_checklists: number | null
+          streak_days: number | null
+          student_id: string | null
+          total_checklists: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checklist_responses_evaluated_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_class_checklist_results_view: {
+        Row: {
+          checklist_created_at: string | null
+          checklist_creator_id: string | null
+          checklist_description: string | null
+          checklist_id: string | null
+          checklist_title: string | null
+          checklist_type: string | null
+          class_id: string | null
+          completed_items: number | null
+          completion_percentage: number | null
+          evaluated_id: string | null
+          evaluator_id: string | null
+          items: Json | null
+          response_created_at: string | null
+          response_id: string | null
+          response_status: string | null
+          scheduled_at: string | null
+          total_items: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checklist_responses_evaluated_id_fkey"
+            columns: ["evaluated_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checklist_responses_evaluator_id_fkey"
+            columns: ["evaluator_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checklists_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checklists_created_by_fkey"
+            columns: ["checklist_creator_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       create_and_set_primary_class: {
@@ -644,6 +776,33 @@ export type Database = {
           length: number
         }
         Returns: string
+      }
+      get_class_daily_checklist_completion_rates: {
+        Args: {
+          p_student_id: string
+          p_class_id: string
+          p_days?: number
+        }
+        Returns: {
+          date: string
+          completion_rate: number
+        }[]
+      }
+      get_daily_completed_checklists: {
+        Args: {
+          p_student_id: string
+          p_days?: number
+        }
+        Returns: {
+          date: string
+          completed_count: number
+        }[]
+      }
+      get_streak_days: {
+        Args: {
+          student_id: string
+        }
+        Returns: number
       }
       get_user_classes: {
         Args: Record<PropertyKey, never>

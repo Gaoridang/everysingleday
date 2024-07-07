@@ -1,13 +1,12 @@
-import { View, Text } from "react-native";
 import React from "react";
-import UserInfo from "../../components/UserInfo";
-import ClassInfoCard from "../../components/ClassInfoCard";
-import Statistics from "../../components/Statistics";
-import { useGetMyCheckLists } from "../../hooks/useCheckList";
+import { Text, View } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
 import { useClass } from "~/app/context/ClassProvider";
-import CheckLists from "../../components/PeerCheckLists";
+import ClassInfoCard from "../../components/ClassInfoCard";
 import SelfCheckLists from "../../components/SelfCheckLists";
+import Statistics from "../../components/Statistics";
+import UserInfo from "../../components/UserInfo";
+import { useGetMyCheckLists } from "../../hooks/useCheckList";
 
 const StudentDashboard = () => {
   const { user } = useAuth();
@@ -23,7 +22,7 @@ const StudentDashboard = () => {
   }
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 gap-4">
       <UserInfo />
       <ClassInfoCard />
       <SelfCheckLists />

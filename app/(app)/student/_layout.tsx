@@ -1,12 +1,11 @@
-import React from "react";
+import { Feather, Octicons } from "@expo/vector-icons";
+import { EventArg, ParamListBase, RouteProp } from "@react-navigation/native";
 import { Tabs } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useCallback } from "react";
 import { useTheme } from "~/app/context/ThemeProvider";
-import { View } from "react-native";
-import { cn } from "~/lib/utils";
 
 export default function StudentLayout() {
-  const { isDarkColorScheme, toggleTheme } = useTheme();
+  const { isDarkColorScheme } = useTheme();
 
   return (
     <Tabs
@@ -25,7 +24,7 @@ export default function StudentLayout() {
         options={{
           title: "Dashboard",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+            <Feather name="home" size={size} color={color} />
           ),
         }}
       />
@@ -40,18 +39,33 @@ export default function StudentLayout() {
         options={{
           title: "Checklists",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="list-outline" size={size} color={color} />
+            <Octicons name="tasklist" size={size} color={color} />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate("checklists", { screen: "index" });
+          },
+        })}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" size={size} color={color} />
+            <Feather name="user" size={size} color={color} />
           ),
         }}
+        listeners={({ navigation, route }) => ({
+          tabPress: (e) => {
+            // Name is profile but not index
+            if (route.name === "profile" && navigation.isFocused()) {
+              e.preventDefault();
+              navigation.navigate("profile", { screen: "index" });
+            }
+          },
+        })}
       />
     </Tabs>
   );

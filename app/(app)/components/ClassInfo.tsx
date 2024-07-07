@@ -27,9 +27,9 @@ const ClassInfo = ({ role }: Props) => {
     (item) => item.class_id === mainClassId?.class_id
   );
 
-  const classInfoLink = `(${role})/profile/ClassInfoScreen`;
-  const classCreateLink = `(${role})/profile/CreateClassScreen`;
-  const classJoinLink = `(${role})/profile/JoinClassScreen`;
+  const classInfoLink = `${role}/profile/ClassInfoScreen`;
+  const classCreateLink = `${role}/profile/CreateClassScreen`;
+  const classJoinLink = `${role}/profile/JoinClassScreen`;
   const text = role === "teacher" ? "만들기" : "가입하기";
 
   return (

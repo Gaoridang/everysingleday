@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -13,6 +13,7 @@ import {
 } from "~/app/(app)/hooks/useCheckList";
 import { Feather } from "@expo/vector-icons";
 import { useAuth } from "~/app/context/AuthProvider";
+import CustomModal from "~/app/(app)/components/CustomModal";
 
 interface Response {
   item_id: string;
@@ -29,6 +30,9 @@ const ChecklistProgress = () => {
   } = useGetChecklistItems(checklistId as string);
   const update = useUpdateStudentChecklistResponse();
   const [responses, setResponses] = useState<Response[]>([]);
+  const [responseId, setResponseId] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: "", message: "" });
 
   useEffect(() => {
     if (checklistItems) {
@@ -53,14 +57,48 @@ const ChecklistProgress = () => {
   const handleSubmit = () => {
     if (!user || !checklistId) return;
 
-    update.mutate({
-      checklistId: checklistId as string,
-      evaluatedId: user.id,
-      itemResponses: responses.map((item) => ({
-        item_id: item.item_id,
-        response: item.response ? "true" : "false",
-      })),
-    });
+    update.mutate(
+      {
+        checklistId: checklistId as string,
+        evaluatedId: user.id,
+        itemResponses: responses.map((item) => ({
+          item_id: item.item_id,
+          response: item.response ? "true" : "false",
+        })),
+      },
+      {
+        // TODO: data type 정의
+        onSuccess: (data: any) => {
+          setResponseId(data.response_id);
+          setModalContent({
+            title: "제출 완료",
+            message: "체크리스트가 성공적으로 제출되었습니다.",
+          });
+          setModalVisible(true);
+        },
+        onError: (error) => {
+          setModalContent({
+            title: "제출 실패",
+            message: "체크리스트 제출 중 오류가 발생했습니다.",
+          });
+          setModalVisible(true);
+        },
+      }
+    );
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  const onPress = () => {
+    if (responseId) {
+      router.push({
+        pathname: `/student/checklists/result/[responseId]`,
+        params: { responseId },
+      });
+    }
+    setModalVisible(false);
   };
 
   const renderItem = ({ item }: { item: any }) => {
@@ -125,6 +163,17 @@ const ChecklistProgress = () => {
           {update.isPending ? "제출 중..." : "체크리스트 제출"}
         </Text>
       </TouchableOpacity>
+
+      <CustomModal
+        isVisible={modalVisible}
+        onClose={handleCloseModal}
+        title={modalContent.title}
+        message={modalContent.message}
+        primaryButton={{
+          text: modalContent.title === "제출 완료" ? "결과 보기" : "다시 시도",
+          onPress: onPress,
+        }}
+      />
     </View>
   );
 };
