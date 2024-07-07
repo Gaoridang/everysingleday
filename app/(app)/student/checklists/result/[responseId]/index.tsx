@@ -1,68 +1,42 @@
 import React from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
-
+import { View, Text, ScrollView, ActivityIndicator } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { useChecklistResult } from "~/app/(app)/hooks/useChecklistResult";
+import { useChecklistResultDetail } from "~/app/(app)/hooks/useChecklistResult";
 
-const ChecklistResultPage = () => {
+const ChecklistResultDetail = () => {
   const { responseId } = useLocalSearchParams();
   const {
     data: result,
     isLoading,
     error,
-  } = useChecklistResult(responseId as string);
+  } = useChecklistResultDetail(responseId as string);
 
-  if (isLoading || !result) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <Text className="text-red-500">Error: {error.message}</Text>
-      </View>
-    );
-  }
-
-  const completedItems = result.items.filter((item) => item.response).length;
-  const totalItems = result.items.length;
-  const completionRate = (completedItems / totalItems) * 100;
+  if (isLoading) return <ActivityIndicator />;
+  if (error) return <Text>Error: {error.message}</Text>;
+  if (!result) return <Text>No result found</Text>;
 
   return (
-    <ScrollView className="flex-1 bg-white p-4">
-      <Text className="text-2xl font-bold mb-4">{result.checklist?.title}</Text>
-      <Text className="text-gray-600 mb-6">
-        {result.checklist?.description}
+    <ScrollView className="flex-1 p-4">
+      <Text className="text-2xl font-bold mb-4">{result.checklist_title}</Text>
+      <Text className="text-gray-600 mb-2">{result.checklist_description}</Text>
+      <Text className="mb-2">
+        Scheduled:{" "}
+        {new Date(result.checklist_scheduled_at!).toLocaleDateString()}
+      </Text>
+      <Text className="mb-2">Status: {result.response_status}</Text>
+      <Text className="mb-2">Achievement: {result.achievement_rate}%</Text>
+      <Text className="mb-4">
+        Completed: {result.completed_items} / {result.total_items}
       </Text>
 
-      <View className="bg-blue-100 p-4 rounded-lg mb-6">
-        <Text className="text-lg font-semibold mb-2">완료율</Text>
-        <View className="w-full bg-gray-200 rounded-full h-2.5">
-          <View
-            className="bg-blue-600 h-2.5 rounded-full"
-            style={{ width: `${completionRate}%` }}
-          />
-        </View>
-        <Text className="text-right mt-1">{completionRate.toFixed(1)}%</Text>
-      </View>
-
-      <Text className="text-xl font-semibold mb-4">체크리스트 항목</Text>
-      {result.items.map((item) => (
-        <View
-          key={item.id}
-          className="flex-row items-center mb-2 p-2 bg-gray-50 rounded"
-        >
-          <View
-            className={`w-6 h-6 rounded-full mr-3 ${
-              item.response ? "bg-green-500" : "bg-red-500"
-            }`}
-          />
-          <Text className={item.response ? "text-black" : "text-gray-500"}>
-            {item.checklist_item?.description}
+      <Text className="text-xl font-bold mb-2">Checklist Items</Text>
+      {result.items.map((item, index) => (
+        <View key={item.id} className="mb-2 p-2 bg-gray-100 rounded">
+          <Text>
+            {index + 1}. {item.description}
+          </Text>
+          <Text className="text-gray-600">
+            {item.response ? "✅ Completed" : "❌ Not completed"}
           </Text>
         </View>
       ))}
@@ -70,4 +44,4 @@ const ChecklistResultPage = () => {
   );
 };
 
-export default ChecklistResultPage;
+export default ChecklistResultDetail;

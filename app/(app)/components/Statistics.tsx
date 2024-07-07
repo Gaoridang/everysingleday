@@ -74,11 +74,17 @@ const Statistics = () => {
   return (
     <View>
       <View className="flex-row gap-4 mb-4">
-        <View className="flex-1 flex-row items-center p-4 rounded-lg bg-slate-100">
-          <Text>달성률 {dashboardData?.achievement_rate}%</Text>
+        <View className="flex-1 gap-4 justify-between items-center p-4 rounded-lg bg-slate-100">
+          <Text className="justify-start text-3xl font-bold">
+            {dashboardData?.achievement_rate}%
+          </Text>
+          <Text className="justify-end">성공</Text>
         </View>
-        <View className="flex-1 flex-row p-4 rounded-lg bg-slate-100">
-          <Text>{dashboardData?.streak_days}일 연속</Text>
+        <View className="flex-1 items-center justify-center gap-4 p-4 rounded-lg bg-slate-100">
+          <Text className="justify-start text-3xl font-bold">
+            {dashboardData?.streak_days}일
+          </Text>
+          <Text className="justify-end">연속</Text>
         </View>
       </View>
 
@@ -102,6 +108,7 @@ const Statistics = () => {
         style={{
           marginVertical: 8,
           borderRadius: 16,
+          paddingRight: 32,
         }}
       />
     </View>

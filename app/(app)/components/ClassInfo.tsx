@@ -1,10 +1,8 @@
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
-import { useClass } from "~/app/context/ClassProvider";
-import { supabase } from "~/app/utils/supabase";
 import { useGetClasses, useGetMainClass } from "../hooks/useUserClass";
 
 interface Props {

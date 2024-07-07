@@ -25,7 +25,6 @@ const StudentDashboard = () => {
     <View className="flex-1 gap-4">
       <UserInfo />
       <ClassInfoCard />
-      <SelfCheckLists />
       <Statistics />
     </View>
   );

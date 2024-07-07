@@ -92,6 +92,13 @@ export type Database = {
             foreignKeyName: "checklist_items_checklist_id_fkey"
             columns: ["checklist_id"]
             isOneToOne: false
+            referencedRelation: "student_class_checklist_results"
+            referencedColumns: ["checklist_id"]
+          },
+          {
+            foreignKeyName: "checklist_items_checklist_id_fkey"
+            columns: ["checklist_id"]
+            isOneToOne: false
             referencedRelation: "user_class_checklist_results_view"
             referencedColumns: ["checklist_id"]
           },
@@ -132,6 +139,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "checklists"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checklist_responses_checklist_id_fkey"
+            columns: ["checklist_id"]
+            isOneToOne: false
+            referencedRelation: "student_class_checklist_results"
+            referencedColumns: ["checklist_id"]
           },
           {
             foreignKeyName: "checklist_responses_checklist_id_fkey"
@@ -655,6 +669,47 @@ export type Database = {
             columns: ["student_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_class_checklist_results: {
+        Row: {
+          achievement_rate: number | null
+          checklist_created_at: string | null
+          checklist_description: string | null
+          checklist_id: string | null
+          checklist_scheduled_at: string | null
+          checklist_title: string | null
+          class_id: string | null
+          completed_items: number | null
+          evaluator_id: string | null
+          evaluator_name: string | null
+          response_created_at: string | null
+          response_status: string | null
+          student_id: string | null
+          total_items: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checklist_responses_evaluated_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checklist_responses_evaluator_id_fkey"
+            columns: ["evaluator_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checklists_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
             referencedColumns: ["id"]
           },
         ]
