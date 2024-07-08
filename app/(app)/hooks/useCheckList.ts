@@ -34,6 +34,7 @@ export const useGetCheckLists = (classId: string) => {
         return data;
       }
     },
+    enabled: !!classId,
   });
 };
 
@@ -81,7 +82,7 @@ export const useGetMyCheckLists = (classId: string | null, userId?: string) => {
         return data;
       }
     },
-    enabled: !!userId,
+    enabled: !!userId && !!classId,
   });
 };
 

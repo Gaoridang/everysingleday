@@ -1,21 +1,17 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Image, Button } from "react-native";
-import * as ImagePicker from "expo-image-picker";
-import { supabase } from "../utils/supabase";
-import { useAuth } from "../context/AuthProvider";
 import { decode } from "base64-arraybuffer";
+import * as ImagePicker from "expo-image-picker";
+import React, { useState } from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import { useAuth } from "../context/AuthProvider";
+import { supabase } from "../utils/supabase";
 
 interface AvatarUploadProps {
   currentAvatarUrl?: string;
   onAvatarChange: (newPath: string, newUrl: string) => void;
 }
 
-const AvatarUpload: React.FC<AvatarUploadProps> = ({
-  currentAvatarUrl,
-  onAvatarChange,
-}) => {
+const AvatarUpload: React.FC<AvatarUploadProps> = ({ currentAvatarUrl }) => {
   const [uploading, setUploading] = useState(false);
-  const [newAvatarBase64, setNewAvatarBase64] = useState("");
   const [newAvatarUri, setNewAvatarUri] = useState("");
   const { user } = useAuth();
 
@@ -72,10 +68,8 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
     }
   };
 
-  console.log("currentAvatarUrl", currentAvatarUrl);
-
   return (
-    <View className="items-center justify-center">
+    <View>
       <TouchableOpacity
         onPress={pickImage}
         disabled={uploading}
@@ -93,7 +87,7 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
           />
         ) : (
           <View className="w-32 h-32 bg-gray-200 rounded-full items-center justify-center">
-            <Text className="text-gray-500">Select Avatar</Text>
+            <Text className="text-gray-500">프로필 사진 선택</Text>
           </View>
         )}
       </TouchableOpacity>

@@ -14,6 +14,7 @@ type Role = "teacher" | "student" | "parent";
 
 const SelectRoleScreen = () => {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+  const [isLoading, setLoading] = useState(false);
   const { user } = useAuth();
   const router = useRouter();
 
@@ -22,21 +23,27 @@ const SelectRoleScreen = () => {
   };
 
   const handleSubmit = async () => {
-    if (selectedRole) {
-      // TODO: 선택된 역할을 서버에 저장하거나 다음 화면으로 네비게이션
-      console.log("Selected role:", selectedRole);
-      const { data, error } = await supabase
-        .from("profiles")
-        .upsert({ id: user?.id, role: selectedRole });
+    try {
+      if (selectedRole) {
+        // TODO: 선택된 역할을 서버에 저장하거나 다음 화면으로 네비게이션
+        console.log("Selected role:", selectedRole);
+        const { data, error } = await supabase
+          .from("profiles")
+          .upsert({ id: user?.id!, role: selectedRole });
 
-      if (error) {
-        console.error("error", error);
-        return;
-      } else {
-        router.replace("/onboarding/SelectAvatarScreen");
+        if (error) {
+          console.error("error", error);
+          return;
+        } else {
+          router.replace("/onboarding/InputNameScreen");
+        }
       }
+    } catch (error) {
+      console.error("Error selecting role:", error);
     }
   };
+
+  console.log("Selected role:", selectedRole);
 
   return (
     <View className="flex-1 justify-center items-center p-6">

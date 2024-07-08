@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  StatusBar,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { supabase } from "../utils/supabase";
@@ -48,38 +49,55 @@ export default function Login() {
       className="flex-1"
     >
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerClassName="flexGrow-1 justifyContent-center"
         keyboardShouldPersistTaps="handled"
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View className="flex-1 justify-center items-center px-6 pt-20">
-            <Text className="font-bold text-3xl mb-12">Every Single Day</Text>
+          <View className="px-8 py-12">
+            <Text className="font-bold text-4xl mb-8 text-gray-800 text-center">
+              Every Single Day
+            </Text>
+            <View>
+              <TextInput
+                className="w-full text-base border-b border-gray-300 p-4 mb-6 text-gray-800"
+                onChangeText={setEmail}
+                value={email}
+                keyboardType="email-address"
+                placeholder="이메일"
+                placeholderTextColor="rgba(107, 114, 128, 0.6)"
+                autoCapitalize="none"
+              />
+              <TextInput
+                className="w-full text-base border-b border-gray-300 p-4 mb-6 text-gray-800"
+                onChangeText={setPassword}
+                value={password}
+                secureTextEntry
+                placeholder="비밀번호"
+                placeholderTextColor="rgba(107, 114, 128, 0.6)"
+              />
+              <TouchableOpacity
+                className="w-full bg-blue-600 rounded-full py-4 mt-4"
+                onPress={handleLogin}
+              >
+                <Text className="text-center text-base font-semibold text-white">
+                  로그인
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View className="my-8 mx-10 flex-row items-center">
+              <View className="flex-1 h-px bg-gray-300" />
+              <Text className="mx-4 text-sm font-bold">또는</Text>
+              <View className="flex-1 h-px bg-gray-300" />
+            </View>
             <GoogleSignInButton />
-            <TextInput
-              className="w-full text-base border-b border-gray-300 p-2 mb-4"
-              onChangeText={setEmail}
-              value={email}
-              keyboardType="email-address"
-              placeholder="이메일"
-              autoCapitalize="none"
-            />
-            <TextInput
-              className="w-full text-base border-b border-gray-300 p-2 mb-6"
-              onChangeText={setPassword}
-              value={password}
-              secureTextEntry
-              placeholder="Password"
-            />
             <TouchableOpacity
-              className="w-full bg-blue-500 rounded-md py-3 mb-4"
-              onPress={handleLogin}
+              onPress={() => router.push("/(auth)/register")}
+              className="mt-6"
             >
-              <Text className="text-center text-white text-base font-semibold">
-                로그인
+              <Text className="text-center text-gray-600 text-base">
+                계정이 없으신가요?{" "}
+                <Text className="text-blue-600 font-semibold">회원가입</Text>
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.push("/(auth)/register")}>
-              <Text className="text-blue-500">회원가입</Text>
             </TouchableOpacity>
           </View>
         </TouchableWithoutFeedback>

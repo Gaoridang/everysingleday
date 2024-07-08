@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { Button } from "react-native";
+import { Button as RNButton } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { supabase } from "../utils/supabase";
 import { useRouter } from "expo-router";
+import LinkButton from "../(app)/components/ActionButton";
+import Button from "../(app)/components/Button";
+import { AntDesign } from "@expo/vector-icons";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -42,10 +45,20 @@ export default function GoogleSignInButton() {
   }
 
   return (
-    <Button
-      title="Google로 로그인"
-      disabled={!request || isLoading}
-      onPress={() => promptAsync()}
-    />
+    <>
+      <Button
+        onPress={() => promptAsync()}
+        text="Google로 로그인"
+        disabled={!request || isLoading}
+        icon={
+          <AntDesign
+            name="google"
+            size={24}
+            color="black"
+            style={{ marginRight: 8 }}
+          />
+        }
+      />
+    </>
   );
 }

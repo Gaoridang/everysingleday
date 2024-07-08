@@ -36,6 +36,14 @@ const TeacherDashboard = () => {
     };
   }, [refetch]);
 
+  if (!currentClassId) {
+    return (
+      <View>
+        <Text>클래스를 선택해주세요.</Text>
+      </View>
+    );
+  }
+
   return (
     <View className="gap-4">
       <View>

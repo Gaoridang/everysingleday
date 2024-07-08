@@ -55,7 +55,7 @@ const TeacherAccount = () => {
             {profile?.name}
           </Text>
           <Text className="text-center text-base">{profile?.email}</Text>
-          <LinkButton href="/(teacher)/profile/editModal" text="프로필 수정" />
+          <LinkButton href="/teacher/profile/editModal" text="프로필 수정" />
         </View>
       </View>
       <ClassInfo role="teacher" />
@@ -63,12 +63,12 @@ const TeacherAccount = () => {
         <LinkButton
           variant="secondary"
           className="col-span-1"
-          href="/(teacher)/profile/ClassListScreen"
+          href="/teacher/profile/ClassListScreen"
           text="학급 목록"
         />
         <LinkButton
           className="col-span-1"
-          href="/(teacher)/profile/CreateClassScreen"
+          href="/teacher/profile/CreateClassScreen"
           text="학급 만들기"
         />
       </View>

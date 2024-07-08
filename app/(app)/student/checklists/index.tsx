@@ -11,6 +11,14 @@ const index = () => {
   const { currentClassId } = useClass();
   const { data: checklists } = useGetCheckLists(currentClassId!);
 
+  if (!currentClassId) {
+    return (
+      <View>
+        <Text>클래스를 선택해주세요.</Text>
+      </View>
+    );
+  }
+
   if (!checklists) {
     return (
       <View>
