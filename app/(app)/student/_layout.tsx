@@ -1,7 +1,6 @@
 import { Feather, Octicons } from "@expo/vector-icons";
-import { EventArg, ParamListBase, RouteProp } from "@react-navigation/native";
 import { Tabs } from "expo-router";
-import React, { useCallback } from "react";
+import React from "react";
 import { useTheme } from "~/app/context/ThemeProvider";
 
 export default function StudentLayout() {

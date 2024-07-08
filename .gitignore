@@ -40,3 +40,17 @@ yarn-error.*
 
 expo-env.d.ts
 # @end expo-cli
+
+ios/Pods/
+ios/build/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserstate
+project.xcworkspace
+xcuserdata
+android/app/build/
+android/.gradle/
+android/local.properties
+*.iml
