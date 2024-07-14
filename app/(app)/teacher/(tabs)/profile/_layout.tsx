@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import CustomStack from "../../components/CustomStack";
+import CustomStack from "~/app/(app)/components/CustomStack";
 
 export default function AccountLayout() {
   return (

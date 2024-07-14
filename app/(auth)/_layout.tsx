@@ -23,6 +23,12 @@ const AuthLayout = () => {
           headerTitle: "회원가입",
         }}
       />
+      <Stack.Screen
+        name="RegisterScreen"
+        options={{
+          headerTitle: "회원정보 입력",
+        }}
+      />
     </Stack>
   );
 };

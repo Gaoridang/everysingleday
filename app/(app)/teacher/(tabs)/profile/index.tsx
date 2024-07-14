@@ -1,11 +1,11 @@
-import { useFocusEffect, useRouter } from "expo-router";
+import { useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { Image, Text, View, TouchableOpacity } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import LinkButton from "~/app/(app)/components/ActionButton";
+import ClassInfo from "~/app/(app)/components/ClassInfo";
 import { useAuth } from "~/app/context/AuthProvider";
-import { supabase } from "~/app/utils/supabase";
-import LinkButton from "../../components/ActionButton";
-import ClassInfo from "../../components/ClassInfo";
 import { Profile } from "~/app/types";
+import { supabase } from "~/app/utils/supabase";
 
 const TeacherAccount = () => {
   const { user, signOut } = useAuth();
@@ -68,7 +68,7 @@ const TeacherAccount = () => {
         />
         <LinkButton
           className="col-span-1"
-          href="/teacher/profile/CreateClassScreen"
+          href="/teacher/CreateClassScreen"
           text="학급 만들기"
         />
       </View>

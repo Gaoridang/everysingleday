@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
-import AvatarUpload from "../../../onboarding/SelectAvatarScreen";
+import ImageUpload from "../../../onboarding/ImageUpload";
 import { supabase } from "~/app/utils/supabase";
 
 interface Profile {
@@ -60,7 +60,7 @@ const EditProfile = () => {
 
   return (
     <KeyboardAvoidingView className="flex-1 p-6 gap-6">
-      <AvatarUpload
+      <ImageUpload
         currentAvatarUrl={profile.avatar_url}
         onAvatarChange={handleAvatarChange}
       />

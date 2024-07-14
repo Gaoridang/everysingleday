@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
-import AvatarUpload from "../../../onboarding/SelectAvatarScreen";
+import ImageUpload from "~/app/onboarding/ImageUpload";
+
 import { supabase } from "~/app/utils/supabase";
 
 interface Profile {
@@ -17,32 +18,17 @@ interface Profile {
   avatar_url: string;
 }
 
-const editModal = () => {
+const EditProfile = () => {
   const router = useRouter();
   const { user } = useAuth();
+  const { profile: profileParam } = useLocalSearchParams<{ profile: string }>();
   const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      if (!user) return;
-
-      try {
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("name, email, avatar_url")
-          .eq("id", user.id)
-          .single();
-
-        if (error) throw error;
-
-        setProfile(data);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
-
-    fetchProfile();
-  }, []);
+    if (profileParam) {
+      setProfile(JSON.parse(profileParam));
+    }
+  }, [profileParam]);
 
   const handleAvatarChange = (newAvatarPath: string) => {
     if (profile) {
@@ -75,7 +61,7 @@ const editModal = () => {
 
   return (
     <KeyboardAvoidingView className="flex-1 p-6 gap-6">
-      <AvatarUpload
+      <ImageUpload
         currentAvatarUrl={profile.avatar_url}
         onAvatarChange={handleAvatarChange}
       />
@@ -93,14 +79,14 @@ const editModal = () => {
       />
       <View className="gap-2">
         <TouchableOpacity onPress={handleSave}>
-          <Text>저장하기</Text>
+          <Text className="text-white font-bold">저장</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.back()}>
-          <Text>취소</Text>
+          <Text className="font-semibold">취소</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
 };
 
-export default editModal;
+export default EditProfile;

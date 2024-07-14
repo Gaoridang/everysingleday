@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useCreateClass } from "../../hooks/useUserClass";
-import SchoolSearchModal from "./SchoolSearchModal";
+import SchoolSearchModal from "./(tabs)/profile/SchoolSearchModal";
+import { useCreateClass } from "~/app/(app)/hooks/useUserClass";
 
 const CreateClassScreen = () => {
   const [school, setSchool] = useState("");

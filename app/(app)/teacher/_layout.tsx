@@ -1,51 +1,49 @@
-import { Ionicons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { Feather } from "@expo/vector-icons";
+import { router, Stack } from "expo-router";
 import React from "react";
-import { useTheme } from "~/app/context/ThemeProvider";
 
 export default function TeacherLayout() {
-  const { isDarkColorScheme, toggleTheme } = useTheme();
-
   return (
-    <Tabs
+    <Stack
       screenOptions={{
-        tabBarActiveTintColor: isDarkColorScheme ? "#ffffff" : "#000000",
-        tabBarInactiveTintColor: isDarkColorScheme ? "#888888" : "#888888",
-        tabBarStyle: {
-          backgroundColor: isDarkColorScheme ? "#000000" : "#ffffff",
-        },
-        tabBarShowLabel: false,
         headerShown: false,
+        contentStyle: {
+          backgroundColor: "#fff",
+        },
       }}
     >
-      <Tabs.Screen
-        name="dashboard"
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen
+        name="createChecklist"
         options={{
-          title: "Dashboard",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+          animation: "slide_from_bottom",
+          headerShown: true,
+          headerTitle: "체크리스트 만들기",
+          headerLeft: () => (
+            <Feather
+              name="x"
+              size={24}
+              color="#333"
+              onPress={() => router.back()}
+            />
           ),
         }}
       />
-      <Tabs.Screen
-        name="checklists"
+      <Stack.Screen
+        name="CreateClassScreen"
         options={{
-          title: "Checklists",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="clipboard-outline" size={size} color={color} />
+          animation: "slide_from_bottom",
+          headerTitle: "체크리스트 만들기",
+          headerLeft: () => (
+            <Feather
+              name="x"
+              size={24}
+              color="#333"
+              onPress={() => router.back()}
+            />
           ),
         }}
       />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen name="index" options={{ href: null }} />
-    </Tabs>
+    </Stack>
   );
 }

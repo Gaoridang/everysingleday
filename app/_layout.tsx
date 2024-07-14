@@ -7,6 +7,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { AuthProvider } from "./context/AuthProvider";
 import { ThemeProvider } from "./context/ThemeProvider";
 import { ClassProvider } from "./context/ClassProvider";
+import { TabBarProvider } from "./context/TabBarProvider";
 
 const queryClient = new QueryClient();
 
@@ -15,11 +16,13 @@ export default function RootLayout() {
     <AuthProvider>
       <ClassProvider>
         <ThemeProvider>
-          <QueryClientProvider client={queryClient}>
-            <SafeAreaProvider>
-              <RootLayoutNav />
-            </SafeAreaProvider>
-          </QueryClientProvider>
+          <TabBarProvider>
+            <QueryClientProvider client={queryClient}>
+              <SafeAreaProvider>
+                <RootLayoutNav />
+              </SafeAreaProvider>
+            </QueryClientProvider>
+          </TabBarProvider>
         </ThemeProvider>
       </ClassProvider>
     </AuthProvider>

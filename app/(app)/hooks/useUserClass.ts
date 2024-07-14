@@ -38,7 +38,7 @@ export const useGetMainClass = (userId?: string) => {
       const { data, error } = await supabase
         .from("class_members")
         .select("class_id")
-        .eq("profile_id", userId)
+        .eq("profile_id", userId!)
         .eq("is_primary", true)
         .maybeSingle();
 
@@ -48,6 +48,7 @@ export const useGetMainClass = (userId?: string) => {
         return data;
       }
     },
+    enabled: !!userId,
   });
 };
 
@@ -58,7 +59,7 @@ export const useGetClassById = (classId?: string) => {
       const { data, error } = await supabase
         .from("classes")
         .select("id,school, grade, class_number")
-        .eq("id", classId)
+        .eq("id", classId!)
         .single();
 
       if (error) {
@@ -67,6 +68,7 @@ export const useGetClassById = (classId?: string) => {
         return data;
       }
     },
+    enabled: !!classId,
   });
 };
 
@@ -93,7 +95,7 @@ export const useCreateClass = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["classes"] });
-      router.replace("/(teacher)/profile/ClassListScreen");
+      router.replace("/teacher/profile/ClassListScreen");
     },
   });
 

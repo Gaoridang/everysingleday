@@ -14,7 +14,7 @@ export default function Index() {
       if (!isAuthenticated) {
         router.replace("/(auth)");
       } else if (!userRole) {
-        router.replace("/onboarding/SelectRoleScreen");
+        router.replace("/(auth)/RegisterScreen");
       } else {
         router.replace(`/(app)/${userRole}`);
       }

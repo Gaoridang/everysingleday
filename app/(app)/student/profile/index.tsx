@@ -37,6 +37,8 @@ const StudentAccount = () => {
     }, [fetchProfile])
   );
 
+  console.log(profile);
+
   return (
     <View className="gap-6">
       <View className="relative gap-4 justify-center items-center">

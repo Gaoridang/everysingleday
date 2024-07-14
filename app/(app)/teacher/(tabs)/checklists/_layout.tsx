@@ -1,7 +1,9 @@
 import { Stack } from "expo-router";
 import React from "react";
 import { useTheme } from "~/app/context/ThemeProvider";
-import CustomStack from "../../components/CustomStack";
+
+import { Text } from "react-native";
+import CustomStack from "~/app/(app)/components/CustomStack";
 
 const CheckListLayout = () => {
   const { isDarkColorScheme } = useTheme();
@@ -12,13 +14,6 @@ const CheckListLayout = () => {
         name="index"
         options={{
           headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="CreateCheckListScreen"
-        options={{
-          headerShown: false,
-          presentation: "modal",
         }}
       />
       <Stack.Screen

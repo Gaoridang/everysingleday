@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 import { useClass } from "~/app/context/ClassProvider";
 import { supabase } from "~/app/utils/supabase";
-import ChecklistItem from "../../components/ChecklistItem";
-import ClassInfoCard from "../../components/ClassInfoCard";
-import UserInfo from "../../components/UserInfo";
-import { useGetTodayCheckLists } from "../../hooks/useCheckList";
+import ChecklistItem from "../../../components/ChecklistItem";
+import ClassInfoCard from "../../../components/ClassInfoCard";
+import UserInfo from "../../../components/UserInfo";
+import { useGetTodayCheckLists } from "../../../hooks/useCheckList";
+import LinkButton from "../../../components/ActionButton";
 
 const TeacherDashboard = () => {
   const { currentClassId } = useClass();
@@ -38,18 +39,20 @@ const TeacherDashboard = () => {
 
   if (!currentClassId) {
     return (
-      <View>
-        <Text>클래스를 선택해주세요.</Text>
+      <View className="flex-1 justify-center items-center">
+        <Text>아직 학급이 없습니다.</Text>
+        <LinkButton
+          href="/(teacher)/profile/CreateClassScreen"
+          text="학급 만들기"
+        />
       </View>
     );
   }
 
   return (
     <View className="gap-4">
-      <View>
-        <UserInfo />
-        <ClassInfoCard />
-      </View>
+      <UserInfo />
+      <ClassInfoCard />
       {checklistsLoading || !checklists ? (
         <Text>Loading...</Text>
       ) : (
