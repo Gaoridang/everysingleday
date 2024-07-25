@@ -1,14 +1,13 @@
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-  View,
+  KeyboardAvoidingView,
   Text,
   TextInput,
-  KeyboardAvoidingView,
   TouchableOpacity,
+  View,
 } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
-import ImageUpload from "~/app/onboarding/ImageUpload";
 
 import { supabase } from "~/app/utils/supabase";
 
@@ -36,7 +35,7 @@ const editModal = () => {
 
         if (error) throw error;
 
-        setProfile(data);
+        setProfile(data as any);
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
@@ -44,12 +43,6 @@ const editModal = () => {
 
     fetchProfile();
   }, []);
-
-  const handleAvatarChange = (newAvatarPath: string) => {
-    if (profile) {
-      setProfile({ ...profile, avatar_url: newAvatarPath });
-    }
-  };
 
   const handleSave = async () => {
     if (!profile || !user) return;
@@ -76,10 +69,6 @@ const editModal = () => {
 
   return (
     <KeyboardAvoidingView className="flex-1 p-6 gap-6">
-      <ImageUpload
-        currentAvatarUrl={profile.avatar_url}
-        onAvatarChange={handleAvatarChange}
-      />
       <TextInput
         className="py-3 border-b border-b-slate-300"
         value={profile.name}

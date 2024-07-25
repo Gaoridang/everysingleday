@@ -143,7 +143,7 @@ export const useCreateCheckList = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["checklists"] });
-      router.replace(`/(teacher)/checklists`);
+      router.replace(`/teacher/checklists`);
     },
   });
 };

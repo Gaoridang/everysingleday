@@ -3,11 +3,11 @@ import { router } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useAuth } from "~/app/context/AuthProvider";
-import { useUser } from "../hooks/useUser";
+import { useProfile } from "../hooks/useProfile";
 
 const UserInfo = () => {
   const { user, userRole } = useAuth();
-  const { data: profile } = useUser(user?.id);
+  const { data: profile } = useProfile(user?.id);
 
   const onPress = () => {
     router.push({

@@ -24,7 +24,7 @@ const ImageUpload: React.FC<AvatarUploadProps> = ({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 1,
+      quality: 0.2,
       base64: true,
     });
 
@@ -47,7 +47,8 @@ const ImageUpload: React.FC<AvatarUploadProps> = ({
         onPress={pickImage}
         disabled={uploading}
         className={cn(
-          "relative justify-center items-center w-24 h-24 rounded-full"
+          "relative justify-center items-center w-24 h-24 rounded-full",
+          uploading && "opacity-50"
         )}
       >
         {/* Loading amination */}

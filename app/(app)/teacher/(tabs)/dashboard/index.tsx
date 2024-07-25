@@ -7,6 +7,8 @@ import ClassInfoCard from "../../../components/ClassInfoCard";
 import UserInfo from "../../../components/UserInfo";
 import { useGetTodayCheckLists } from "../../../hooks/useCheckList";
 import LinkButton from "../../../components/ActionButton";
+import { useFocusEffect } from "expo-router";
+import { useProfile } from "~/app/(app)/hooks/useProfile";
 
 const TeacherDashboard = () => {
   const { currentClassId } = useClass();

@@ -1,5 +1,7 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { decode } from "base64-arraybuffer";
 import { supabase } from "~/app/utils/supabase";
+import uuid from "react-native-uuid";
 
 export const uploadImageToSupabase = async (
   uri: string,
@@ -8,7 +10,7 @@ export const uploadImageToSupabase = async (
 ) => {
   try {
     const ext = type ? type.split("/")[1] : "jpg";
-    const path = `${userId}/${Date.now()}.${ext}`;
+    const path = `avatars/${userId}/${uuid.v4()}.${ext}`;
 
     const { error } = await supabase.storage
       .from("avatars")
